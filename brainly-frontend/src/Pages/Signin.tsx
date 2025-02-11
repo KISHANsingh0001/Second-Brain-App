@@ -109,7 +109,7 @@ export function SignIn() {
                   Loading...
                 </div>
               ) : (
-                "Sign up"
+                "Sign In"
               )}
             </button>
           </div>

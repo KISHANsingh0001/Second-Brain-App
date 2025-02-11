@@ -3,12 +3,27 @@ import { DocumentIcon } from "../icon/Document";
 import { ShareIcon } from "../icon/Shareicon";
 import "../App.css"
 import { RedirectIcon } from "../icon/Redirecticon";
+import { useEffect } from "react";
+
+declare global {
+  interface Window {
+    twttr: any;
+  }
+}
 interface CardProps {
+  _id:string
   title: string;
   link: string;
   type: "twitter" | "youtube"|"Link";
+  onDelete: () => void;
 }
 export const Card = (props: CardProps) => {
+  useEffect(() => {
+    if (props.type === "twitter" && window.twttr) {
+      window.twttr.widgets.load();
+    }
+  }, [props.type]);
+
   return (
     <div className="">
       <div className="bg-white rounded-md  border outline-gray-200 max-w-72 p-1 min-h-48 min-w-72 max-h-10 overflow-y-scroll no-scrollbar ">
@@ -26,7 +41,7 @@ export const Card = (props: CardProps) => {
               </a>
             </div>
             <div className="pr-2 text-gray-500">
-              <DeleteIcon />
+             <div onClick={props.onDelete}><DeleteIcon /></div>
             </div>
           </div>
         </div>
@@ -37,6 +52,9 @@ export const Card = (props: CardProps) => {
           {props.type == "twitter" && <blockquote className="twitter-tweet">
             <a href={props.link.replace("x.com" , "twitter.com")}></a>
           </blockquote>}
+          <div className="overflow-x-hidden overflow-y-hidden flex justify-center border">
+          {props.type == "Link" && <img src="https://cdn.textstudio.com/output/sample/normal/9/2/4/5/link-logo-73-5429.png" />}
+          </div>
         </div>
       </div>
     </div>

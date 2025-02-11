@@ -4,7 +4,7 @@ import { BACKEND_URL } from "../config";
 
 // Define content types
 interface ContentItem {
-  id: string;
+  _id: string;
   title: string;
   type: "Link" |"twitter" | "youtube";
   link: string;

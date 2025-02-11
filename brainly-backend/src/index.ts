@@ -161,6 +161,7 @@ app.get("/api/v1/content", userMiddleware, async (req, res) => {
 app.delete("/api/v1/content", userMiddleware, async (req, res) => {
     try {
         const contentId = req.body.contentId;
+        console.log(contentId)
         if (!contentId) {
             res.status(400).json({
                 msg: "Content ID is required"
