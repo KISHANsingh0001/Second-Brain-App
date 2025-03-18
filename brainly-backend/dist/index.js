@@ -166,6 +166,7 @@ app.get("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter(
 app.delete("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const contentId = req.body.contentId;
+        console.log(contentId);
         if (!contentId) {
             res.status(400).json({
                 msg: "Content ID is required"

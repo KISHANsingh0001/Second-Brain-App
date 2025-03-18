@@ -10,8 +10,9 @@ function userMiddleware(req, res, next) {
     const header = req.headers["authorization"];
     try {
         const decodedData = jsonwebtoken_1.default.verify(header, config_1.JWT_SECRET);
-        //@ts-ignore
-        req.userId = decodedData.id;
+        if (typeof decodedData !== 'string') {
+            req.userId = decodedData.id;
+        }
         next();
     }
     catch (err) {
