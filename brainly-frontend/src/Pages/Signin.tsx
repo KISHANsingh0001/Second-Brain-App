@@ -7,6 +7,7 @@ import { ModalSignIn } from "../componets/ModalSignIn";
 import { Link, useNavigate } from "react-router-dom";
 
 export function SignIn() {
+  const [showPassword , setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false); // To show modal on success
   const [error, setError] = useState<string | null>(null); // To store error messages
@@ -80,13 +81,13 @@ export function SignIn() {
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Email
             </label>
-            <Input placeholder="Enter your Email" reference={emailRef} />
+            <Input placeholder="Enter your Email" reference={emailRef} type="text" />
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Password
             </label>
-            <Input placeholder="Enter Your Password" reference={passwordRef} />
+            <Input placeholder="Enter Your Password" reference={passwordRef} type="password" />
           </div>
 
           {/* Display error message */}

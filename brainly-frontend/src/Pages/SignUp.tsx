@@ -83,7 +83,7 @@ export function SignUp() {
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Password
             </label>
-            <Input placeholder="Enter Your Password" reference={passwordRef} />
+            <Input placeholder="Enter Your Password" reference={passwordRef} type="password" />
           </div>
 
           {/* Display error message */}
