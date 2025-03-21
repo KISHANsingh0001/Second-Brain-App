@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import axios from "axios";
 import { CrossIcon } from "../icon/CrossIcon";
-import { Button } from "./button";
+import { Button , message } from "antd";
 import { BACKEND_URL } from "../config";
 
 interface CreateContentModalProps {
@@ -62,9 +62,9 @@ export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
       {open && (
         <div>
           {/* Background div */}
-          <div className="w-screen h-screen bg-slate-500 fixed top-0 left-0 opacity-65 flex justify-center items-center"></div>
+          <div className="w-screen h-screen bg-slate-500 fixed top-0 left-0 opacity-75 flex justify-center items-center z-50"></div>
 
-          <div className="w-screen h-screen fixed top-0 left-0 flex justify-center items-center px-4">
+          <div className="w-screen h-screen fixed top-0 left-0 flex justify-center items-center px-4 z-50">
             <div className="flex flex-col justify-center w-full max-w-2xl">
               <span className="bg-white rounded-lg p-4 bg-opacity-100 shadow-lg">
                 <div className="flex justify-between items-center p-2 mb-4">
@@ -139,8 +139,8 @@ export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
 
                 {/* Footer */}
                 <div className="flex gap-2 justify-end">
-                  <Button variant="secondary" text="Cancel" size="md" onClick={onClose} />
-                  <Button variant="primary" text="Add Content" size="md" onClick={addContent} />
+                  <Button type="primary" danger size="large" onClick={onClose}>Cancel</Button>
+                  <Button type="primary" size="large" onClick={addContent}>Add Content</Button>
                 </div>
               </span>
             </div>

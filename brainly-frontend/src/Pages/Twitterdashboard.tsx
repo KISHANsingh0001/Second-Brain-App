@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 // @ts-ignore
-import { Button } from "../componets/button";
-import { Card } from "../componets/Card";
+import { Button } from "antd";
+import { FolderAddOutlined , ShareAltOutlined } from "@ant-design/icons";
+import { Card1 } from "../componets/Card1";
 import { CreateContentModal } from "../componets/CreateContentModal";
 import { PlusIcon } from "../icon/Plusicon";
 import { ShareIcon } from "../icon/Shareicon";
@@ -58,7 +59,7 @@ export function TwitterdashBoard() {
   return (
     <>
       <SideBar />
-      <div className="p-4 h-screen flex flex-col ml-72 min-h-screen bg-gray-100 bottom-2">
+      <div className="p-4 h-screen flex flex-col lg:ml-72 min-h-screen bg-gray-100 bottom-2">
         <CreateContentModal
           open={modalOpen}
           onClose={() => setModalOpen(false)}
@@ -66,20 +67,19 @@ export function TwitterdashBoard() {
         <div className="flex justify-between gap-3 mb-4 flex-wrap items-center">
           <div className="text-2xl font-bold flex justify-center items-center gap-3">{<TwitterIcon/>}Twitter Content</div>
           <div className="flex gap-3">
-            <Button
+          <Button
+              icon={<ShareAltOutlined />}
+              size="large"
               onClick={shareLink}
-              variant="secondary"
-              size="md"
-              text="Share Brain"
-              startIcon={<ShareIcon />}
-            />
+            >
+              Share Content
+            </Button>
             <Button
               onClick={() => setModalOpen(true)}
-              variant="primary"
-              size="md"
-              text="Add Content"
-              startIcon={<PlusIcon />}
-            />
+              type="primary"
+              size="large"
+              icon={<FolderAddOutlined />}
+            >Add Content</Button>
           </div>
         </div>
 
@@ -93,7 +93,7 @@ export function TwitterdashBoard() {
             contents
                     .filter(({ type }) => type === "twitter")
                     .map(({ _id , link, type, title }) => (
-                        <Card _id={_id} key={_id} type={type} link={link} title={title} onDelete={()=> handleDelete(_id)} />
+                        <Card1 _id={_id} key={_id} type={type} link={link} title={title} onDelete={()=> handleDelete(_id)} />
                     ))
           ) : (
             <div className="text-center text-gray-500 w-full">

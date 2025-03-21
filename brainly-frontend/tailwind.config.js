@@ -19,6 +19,9 @@ export default {
   				'500': '#9492db',
   				'600': '#7164c0'
   			},
+			black:{
+				'100':'#0a0b10'
+			},
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

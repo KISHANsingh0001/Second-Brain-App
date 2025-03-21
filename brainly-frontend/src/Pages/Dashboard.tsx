@@ -132,7 +132,7 @@
 //     }
 //   }
 //   async function handleDelete(contentId:string) {
-    
+
 //   }
 
 //   return (
@@ -192,16 +192,19 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Button } from "../componets/Button";
-import { Card } from "../componets/Card";
+// import { Button } from "../componets/Button";
+import { Card1 } from "../componets/Card1";
 import { CreateContentModal } from "../componets/CreateContentModal";
-import { PlusIcon } from "../icon/Plusicon";
-import { ShareIcon } from "../icon/Shareicon";
 import { SideBar } from "../componets/Sidebar";
 import { useContent } from "../hooks/useContent";
 import { LoadingIcon } from "../icon/LoadingIcon";
 import { BACKEND_URL } from "../config";
 import { HomeIcon } from "../icon/HomeIcon";
+import { Button } from "antd";
+import {
+  FolderAddOutlined,
+  ShareAltOutlined,
+} from "@ant-design/icons"
 
 export function DashBoard() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -234,14 +237,14 @@ export function DashBoard() {
   async function handleDelete(contentId: string) {
     try {
       await axios.delete(`${BACKEND_URL}/api/v1/content`, {
-         //@ts-ignore
-        data:{ contentId },
-        headers:{
+        //@ts-ignore
+        data: { contentId },
+        headers: {
           Authorization: localStorage.getItem("token") || "",
         },
       });
       refresh();
-    } catch (error){
+    } catch (error) {
       console.error("Error deleting content:", error);
       alert("Failed to delete content.");
     }
@@ -262,32 +265,31 @@ export function DashBoard() {
           </div>
           <div className="flex gap-3">
             <Button
+              icon={<ShareAltOutlined />}
+              size="large"
               onClick={shareLink}
-              variant="secondary"
-              size="md"
-              text="Share Brain"
-              startIcon={<ShareIcon />}
-            />
+            >
+              Share Content
+            </Button>
             <Button
               onClick={() => setModalOpen(true)}
-              variant="primary"
-              size="md"
-              text="Add Content"
-              startIcon={<PlusIcon />}
-            />
+              type="primary"
+              size="large"
+              icon={<FolderAddOutlined />}
+            >Add Content</Button>
           </div>
         </div>
 
         {/* Scrollable container for cards */}
-        <div className="flex-1 overflow-y-auto">
-          <div className="flex gap-4 flex-wrap">
+        <div className="flex-1 overflow-y-auto justify-center items-center">
+          <div className="flex gap-4 flex-wrap items-center">
             {loading ? (
               <div className="flex justify-center items-center w-full">
                 <LoadingIcon />
               </div>
             ) : contents?.length > 0 ? (
-              contents.map(({ _id , link, type, title }) => (
-                <Card
+              contents.map(({ _id, link, type, title }) => (
+                <Card1
                   _id={_id}
                   key={_id}
                   type={type}
@@ -297,8 +299,8 @@ export function DashBoard() {
                 />
               ))
             ) : (
-              <div className="text-center text-gray-500 w-full">
-                No content available. Add some!
+              <div className="text-center text-gray-500 w-full font-semibold">
+                No Content Available. Add Some!
               </div>
             )}
           </div>
