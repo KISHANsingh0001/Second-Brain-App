@@ -282,7 +282,7 @@ export function DashBoard() {
 
         {/* Scrollable container for cards */}
         <div className="flex-1 overflow-y-auto justify-center items-center">
-          <div className="flex gap-4 flex-wrap items-center">
+          <div className="flex gap-6 flex-wrap items-center">
             {loading ? (
               <div className="flex justify-center items-center w-full">
                 <LoadingIcon />

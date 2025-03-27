@@ -88,7 +88,7 @@ export function YoutubedashBoard() {
         </div>
 
         {/* Cards */}
-        <div className="flex gap-4 flex-wrap">
+        <div className="flex gap-6 flex-wrap">
           {loading ? (
             <div className="flex justify-center items-center w-full">
               <LoadingIcon />

@@ -52,13 +52,14 @@ import { Logo } from "../icon/Logo";
 import { TwitterIcon } from "../icon/TwitterIcon";
 import { YouTubeIcon } from "../icon/YoutubeIcon";
 import { SideBarItems } from "./SidebarItem";
+import { exportedShareLink } from "../Pages/ShareDashboard";
 // @ts-ignore
 // import { Button } from "../componets/button";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import  MenuIcon  from "../icon/MenuIcon"; // Add a menu icon for the toggle button
 
-export function SideBar() {
+export function ShareSidebar() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -93,29 +94,20 @@ export function SideBar() {
             <h1 className="text-2xl font-extrabold">Second Brain</h1>
           </div>
           <div className="pt-4 pl-1">
-            <div onClick={() => navigate("/dashboard")}>
+            <div onClick={() => navigate(`/share/${exportedShareLink}`)}>
               <SideBarItems text="Home" icon={<HomeIcon />} />
             </div>
-            <div onClick={() => navigate("/Twitterdashboard")}>
+            <div onClick={() => navigate("/ShareTwitterDashboard")}>
               <SideBarItems text="Twitter" icon={<TwitterIcon />} />
             </div>
-            <div onClick={() => navigate("/Youtubedashboard")}>
+            <div onClick={() => navigate("/ShareYoutubeDashboard")}>
               <SideBarItems text="Youtube" icon={<YouTubeIcon />} />
             </div>
-            <div onClick={() => navigate("/Linksdashboard")}>
+            <div onClick={() => navigate("/ShareLinkDashboard")}>
               <SideBarItems text="Links" icon={<LinkIcon />} />
             </div>
             {/* <SideBarItems text="Document" icon={<DocumentIcon />} /> */}
           </div>
-        </div>
-
-        {/* Bottom Section */}
-        <div className="p-4">
-          <Button 
-          type="primary"
-          danger
-          onClick={handleLogout}
-          >Logout</Button>
         </div>
       </div>
     </>

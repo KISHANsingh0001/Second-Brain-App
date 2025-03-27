@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 // @ts-ignore
 import { Button } from "antd";
-import { FolderAddOutlined , ShareAltOutlined } from "@ant-design/icons";
+import { FolderAddOutlined, ShareAltOutlined } from "@ant-design/icons";
 import { Card1 } from "../componets/Card1";
 import { CreateContentModal } from "../componets/CreateContentModal";
 import { PlusIcon } from "../icon/Plusicon";
@@ -40,20 +40,20 @@ export function TwitterdashBoard() {
       alert("Failed to generate share link.");
     }
   }
-  async function handleDelete(contentId:string) {
-    try{
-      await axios.delete(`${BACKEND_URL}/api/v1/content/` , {
-         //@ts-ignore
-        data:{contentId},
-        headers:{
-          Authorization:localStorage.getItem('token') || "",
+  async function handleDelete(contentId: string) {
+    try {
+      await axios.delete(`${BACKEND_URL}/api/v1/content/`, {
+        //@ts-ignore
+        data: { contentId },
+        headers: {
+          Authorization: localStorage.getItem('token') || "",
         }
       });
       refresh();
-    }catch(e){
-      console.error("Error deleting content:" ,e);
+    } catch (e) {
+      console.error("Error deleting content:", e);
       alert("Failed to delete content.");
-      
+
     }
   }
   return (
@@ -65,13 +65,12 @@ export function TwitterdashBoard() {
           onClose={() => setModalOpen(false)}
         />
         <div className="flex justify-between gap-3 mb-4 flex-wrap items-center">
-          <div className="text-2xl font-bold flex justify-center items-center gap-3">{<TwitterIcon/>}Twitter Content</div>
+          <div className="text-2xl font-bold flex justify-center items-center gap-3">{<TwitterIcon />}Twitter Content</div>
           <div className="flex gap-3">
-          <Button
+            <Button
               icon={<ShareAltOutlined />}
               size="large"
-              onClick={shareLink}
-            >
+              onClick={shareLink}>
               Share Content
             </Button>
             <Button
@@ -84,17 +83,17 @@ export function TwitterdashBoard() {
         </div>
 
         {/* Cards */}
-        <div className="flex gap-4 flex-wrap">
+        <div className="flex gap-6 flex-wrap">
           {loading ? (
             <div className="flex justify-center items-center w-full">
               <LoadingIcon />
             </div>
           ) : contents?.length > 0 ? (
             contents
-                    .filter(({ type }) => type === "twitter")
-                    .map(({ _id , link, type, title }) => (
-                        <Card1 _id={_id} key={_id} type={type} link={link} title={title} onDelete={()=> handleDelete(_id)} />
-                    ))
+              .filter(({ type }) => type === "twitter")
+              .map(({ _id, link, type, title }) => (
+                <Card1 _id={_id} key={_id} type={type} link={link} title={title} onDelete={() => handleDelete(_id)} />
+              ))
           ) : (
             <div className="text-center text-gray-500 w-full">
               No content available. Add some!

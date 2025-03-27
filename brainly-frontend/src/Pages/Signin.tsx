@@ -52,7 +52,7 @@ export function SignIn() {
       setResponseMessage("SignIn successful!");
       setShow(true); // Show success modal
       setTimeout(()=>{
-       navigate("/dash")
+       navigate("/dashboard")
       },2000);
     } catch (err) {
       // Extract `msg` from the error response
