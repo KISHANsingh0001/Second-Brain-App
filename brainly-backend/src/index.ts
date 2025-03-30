@@ -264,7 +264,7 @@ app.get("/api/v1/:shareLink", async (req, res) => {
         });
         return;
     }
-  // Finialy return the email and content of the user 
+  // Finial return the email and content of the user 
     res.status(200).json({
         email: user.email,
         content: content

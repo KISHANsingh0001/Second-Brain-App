@@ -4,6 +4,7 @@ import { Card1 } from "../componets/Card1";
 import { ShareSidebar } from "../componets/ShareSidebar";
 import { LoadingIcon } from "../icon/LoadingIcon";
 import { BACKEND_URL } from "../config";
+import { ShareCard1 } from "../componets/ShareCard1";
 
 export let exportedShareLink: string | undefined; // variable to store the share hash
 
@@ -59,7 +60,7 @@ export function ShareDashboard() {
               </div>
             ) : contents.length > 0 ? (
               contents.map(({ _id, link, type, title }: any) => (
-                <Card1
+                <ShareCard1
                   _id={_id}
                   key={_id}
                   type={type}

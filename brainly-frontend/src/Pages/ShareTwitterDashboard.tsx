@@ -6,6 +6,7 @@ import { LoadingIcon } from "../icon/LoadingIcon";
 import { BACKEND_URL } from "../config";
 import { HomeIcon } from "../icon/HomeIcon";
 import { exportedShareLink } from "./ShareDashboard";
+import { ShareCard1 } from "../componets/ShareCard1";
 export function ShareTwitterDashboard() {
   const [username , setUsername] = useState<string | null>("");
   const [contents, setContents] = useState([]);
@@ -60,7 +61,7 @@ export function ShareTwitterDashboard() {
                 contents
                         .filter(({ type }) => type === "twitter")
                         .map(({ _id , link, type, title }) => (
-                            <Card1 _id={_id} key={_id} type={type} link={link} title={title}/>
+                            <ShareCard1 _id={_id} key={_id} type={type} link={link} title={title}/>
                         ))
               ): (
               <div className="text-center text-gray-500 w-full font-semibold">
