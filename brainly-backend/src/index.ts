@@ -68,6 +68,7 @@ app.post("/api/v1/signup", async (req, res) => {
 
 
         res.status(201).json({
+            email:email,
             msg: "User signed up successfully"
         });
     }
@@ -95,6 +96,7 @@ app.post("/api/v1/signin", async (req, res) => {
         if (passwordMatched) {
             const token = jwt.sign({ id: user._id }, JWT_SECRET);
             res.status(200).json({
+                email,
                 msg: "You are signed in",
                 token: token
             })

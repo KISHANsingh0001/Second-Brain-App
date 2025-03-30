@@ -43,5 +43,5 @@ export function useContent() {
   //   };
   // }, []);
 
-  return { contents, loading, error, refresh };
+  return { contents, loading, error, refresh, setContents};
 }

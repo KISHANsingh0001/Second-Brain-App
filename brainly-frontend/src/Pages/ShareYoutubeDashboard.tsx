@@ -41,7 +41,7 @@ export function ShareYoutubeDashboard() {
        />
       <div className="p-4 h-screen flex flex-col lg:ml-72 min-h-screen bg-gray-100 bottom-2">
         <div className="flex justify-between gap-3 mb-4 flex-wrap items-center">
-          <div className="text-2xl font-bold flex justify-center items-center gap-3">
+          <div className="text-2xl font-bold flex mt-3 md:mt-0 justify-center items-center gap-3">
             {/* <HomeIcon /> */}
             {`Shared by ${username}`}
           </div>

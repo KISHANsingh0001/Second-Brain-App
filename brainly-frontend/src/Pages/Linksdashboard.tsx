@@ -9,19 +9,23 @@ import { useContent } from "../hooks/useContent";
 import { LoadingIcon } from "../icon/LoadingIcon";
 import { BACKEND_URL } from "../config";
 import {
+  ApiTwoTone,
   FolderAddOutlined,
   ShareAltOutlined,
 } from "@ant-design/icons"
 export function LinksdashBoard() {
+  const [share , setShare] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const { contents, loading, refresh } = useContent();
+  const { contents, loading, refresh, setContents } = useContent();
 
   useEffect(() => {
     refresh();
   }, [modalOpen]);
 
-  async function shareLink() {
+  
+  async function shareLinkTrue() {
     try {
+      setShare(true);
       const response = await axios.post(
         `${BACKEND_URL}/api/v1/brain/share`,
         { share: true },
@@ -39,20 +43,43 @@ export function LinksdashBoard() {
       alert("Failed to generate share link.");
     }
   }
-  async function handleDelete(contentId:string) {
-    try{
-      await axios.delete(`${BACKEND_URL}/api/v1/content` , {
-         //@ts-ignore
-        data:{contentId},
-        headers:{
-          Authorization:localStorage.getItem('token') || "",
+  async function shareLinkFalse() {
+    try {
+      setShare(false);
+      const response = await axios.post(
+        `${BACKEND_URL}/api/v1/brain/share`,
+        { share: false },
+        {
+          headers: {
+            Authorization: localStorage.getItem("token") || "",
+          },
         }
+      );
+      //@ts-ignore
+      const shareUrl = `${window.location.origin}/share/${response.data.hash}`;
+      alert(`Now Your Brain is not Publicly Available`);
+    } catch (error) {
+      console.error("Error generating share link:", error);
+      alert("Failed to generate share link.");
+    }
+  }
+  async function handleDelete(contentId: string) {
+    try {
+      
+      // setContents((prevContents) =>
+      //   prevContents.filter((content) => content._id !== contentId)
+      // );
+      await axios.delete(`${BACKEND_URL}/api/v1/content`, {
+        //@ts-ignore
+        data: { contentId },
+        headers: {
+          Authorization: localStorage.getItem("token") || "",
+        },
       });
       refresh();
-    }catch(e){
-      console.error("Error deleting content:" ,e);
+    } catch (error) {
+      console.error("Error deleting content:", error);
       alert("Failed to delete content.");
-      
     }
   }
 
@@ -64,16 +91,29 @@ export function LinksdashBoard() {
           open={modalOpen}
           onClose={() => setModalOpen(false)}
         />
-        <div className="flex justify-between gap-3 mb-4 flex-wrap items-center">
+        <div className="flex justify-between  mt-3 md:mt-0 gap-3 mb-4 flex-wrap items-center">
           <div className="text-2xl font-bold">Your Links ⛓️‍💥</div>
-          <div className="flex gap-3">
-          <Button
+          <div className="flex gap-3 flex-wrap">
+          {share == false ? 
+            <div>
+              <Button
               icon={<ShareAltOutlined />}
               size="large"
-              onClick={shareLink}
+              onClick={shareLinkTrue}
+              
             >
               Share Content
             </Button>
+            </div> : <div>
+              <Button
+              icon={<ApiTwoTone />}
+              size="large"
+              onClick={shareLinkFalse}
+              danger
+            >
+              UnShare Content
+            </Button>
+            </div>}
             <Button
               onClick={() => setModalOpen(true)}
               type="primary"

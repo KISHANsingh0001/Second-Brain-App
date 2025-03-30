@@ -73,6 +73,7 @@ app.post("/api/v1/signup", (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
         // console.log("user creating");
         res.status(201).json({
+            email: email,
             msg: "User signed up successfully"
         });
     }
@@ -98,6 +99,7 @@ app.post("/api/v1/signin", (req, res) => __awaiter(void 0, void 0, void 0, funct
         if (passwordMatched) {
             const token = jsonwebtoken_1.default.sign({ id: user._id }, config_1.JWT_SECRET);
             res.status(200).json({
+                email,
                 msg: "You are signed in",
                 token: token
             });
@@ -271,7 +273,7 @@ app.get("/api/v1/:shareLink", (req, res) => __awaiter(void 0, void 0, void 0, fu
         });
         return;
     }
-    // Finialy return the email and content of the user 
+    // Finial return the email and content of the user 
     res.status(200).json({
         email: user.email,
         content: content
