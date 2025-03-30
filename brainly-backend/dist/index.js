@@ -279,4 +279,26 @@ app.get("/api/v1/:shareLink", (req, res) => __awaiter(void 0, void 0, void 0, fu
         content: content
     });
 }));
+app.get("/api/v1/users", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        //@ts-ignore
+        const users = yield db_1.User.find();
+        console.log("User found:", users); // Debugging
+        if (!users) {
+            res.status(404).json({
+                msg: "User not found",
+            });
+            return;
+        }
+        res.status(200).json({
+            users,
+        });
+    }
+    catch (e) {
+        console.error("Error fetching user:", e);
+        res.status(500).json({
+            msg: "Internal server error",
+        });
+    }
+}));
 app.listen(3003);

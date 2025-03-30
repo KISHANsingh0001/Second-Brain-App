@@ -47,7 +47,7 @@ app.post("/api/v1/signup", async (req, res) => {
         });
         return;
     }
-    console.log("here");
+    
     
     const { email, password } = requireBodyWithSafeParse.data;
     try {
@@ -271,6 +271,8 @@ app.get("/api/v1/:shareLink", async (req, res) => {
         email: user.email,
         content: content
     })
-})
+});
+
+
 
 app.listen(3003);

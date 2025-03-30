@@ -192,7 +192,6 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import { Button } from "../componets/Button";
 import { Card1 } from "../componets/Card1";
 import { CreateContentModal } from "../componets/CreateContentModal";
 import { SideBar } from "../componets/Sidebar";
@@ -206,7 +205,6 @@ import {
   FolderAddOutlined,
   ShareAltOutlined,
 } from "@ant-design/icons"
-import { div } from "framer-motion/client";
 
 
 export function DashBoard() {
@@ -214,7 +212,6 @@ export function DashBoard() {
   const [modalOpen, setModalOpen] = useState(false);
   const { contents, loading, refresh, setContents } = useContent();
  
-
   useEffect(() => {
     refresh();
   }, [modalOpen]);
