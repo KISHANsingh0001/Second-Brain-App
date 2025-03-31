@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Card1 } from "../componets/Card1";
-import {ShareSidebar} from "../componets/ShareSidebar"
 import { LoadingIcon } from "../icon/LoadingIcon";
 import { BACKEND_URL } from "../config";
 import { HomeIcon } from "../icon/HomeIcon";

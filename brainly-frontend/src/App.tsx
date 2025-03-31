@@ -10,7 +10,6 @@ import { ShareLinkDashboard } from "./Pages/ShareLinkDashboard";
 import { ShareYoutubeDashboard } from "./Pages/ShareYoutubeDashboard";
 import { ShareTwitterDashboard } from "./Pages/ShareTwitterDashboard";
 import { SideBar } from "./componets/Sidebar";
-import { ShareSidebar } from "./componets/ShareSidebar";
 
 function App() {
   const location = useLocation();
