@@ -273,6 +273,29 @@ app.get("/api/v1/:shareLink", async (req, res) => {
     })
 });
 
+app.get("/users", userMiddleware , async (req , res)=>{
+    try{
+        //@ts-ignore
+        const userId = req.userId;
+        const users = await User.find({_id:userId}).select("email");
+        if(users.length > 0){
+            res.status(200).json({
+                users:users[0].email
+            });
+        }
+        else{
+            res.status(404).json({
+                msg: "No users found"
+            })
+        }
+
+    }catch(e){
+        console.error("Error fetching users", e);
+        res.status(500).json({
+            msg: "Internal server error"
+        });
+    }
+})
 
 
 app.listen(3003);

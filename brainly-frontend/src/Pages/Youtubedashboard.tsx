@@ -83,8 +83,8 @@ export function YoutubedashBoard() {
   }
   return (
     <>
-      <SideBar />
-      <div className="p-4 h-screen flex flex-col lg:ml-72 min-h-screen bg-gray-100 bottom-2">
+      {/* <SideBar /> */}
+      <div className="p-4 h-screen flex flex-col min-h-screen bg-gray-100 bottom-2">
         <CreateContentModal
           open={modalOpen}
           onClose={() => setModalOpen(false)}

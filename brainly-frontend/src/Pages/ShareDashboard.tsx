@@ -39,8 +39,8 @@ export function ShareDashboard() {
 
   return (
     <>
-      <ShareSidebar />
-      <div className="p-4 h-screen flex flex-col lg:ml-72 min-h-screen bg-gray-100 bottom-2">
+     
+      <div className="p-4 h-screen flex flex-col min-h-screen bg-gray-100 bottom-2">
         <div className="flex justify-between gap-3 mb-4 flex-wrap items-center">
           <div className="text-2xl font-bold flex mt-3 justify-center items-center gap-3">
             {`Shared by ${username}`}

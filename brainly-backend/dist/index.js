@@ -56,7 +56,6 @@ app.post("/api/v1/signup", (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
         return;
     }
-    console.log("here");
     const { email, password } = requireBodyWithSafeParse.data;
     try {
         const userExist = yield db_1.User.findOne({ email: email });
@@ -279,25 +278,26 @@ app.get("/api/v1/:shareLink", (req, res) => __awaiter(void 0, void 0, void 0, fu
         content: content
     });
 }));
-app.get("/api/v1/users", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/users", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         //@ts-ignore
-        const users = yield db_1.User.find();
-        console.log("User found:", users); // Debugging
-        if (!users) {
-            res.status(404).json({
-                msg: "User not found",
+        const userId = req.userId;
+        const users = yield db_1.User.find({ _id: userId }).select("email");
+        if (users.length > 0) {
+            res.status(200).json({
+                users: users[0].email
             });
-            return;
         }
-        res.status(200).json({
-            users,
-        });
+        else {
+            res.status(404).json({
+                msg: "No users found"
+            });
+        }
     }
     catch (e) {
-        console.error("Error fetching user:", e);
+        console.error("Error fetching users", e);
         res.status(500).json({
-            msg: "Internal server error",
+            msg: "Internal server error"
         });
     }
 }));
