@@ -10,6 +10,7 @@ import { ShareLinkDashboard } from "./Pages/ShareLinkDashboard";
 import { ShareYoutubeDashboard } from "./Pages/ShareYoutubeDashboard";
 import { ShareTwitterDashboard } from "./Pages/ShareTwitterDashboard";
 import { SideBar } from "./componets/Sidebar";
+import UniversalDashboard from "./Pages/universalDashboard";
 
 function App() {
   const location = useLocation();
@@ -40,10 +41,10 @@ function App() {
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/dashboard" element={<DashBoard />} />
-          <Route path="/Twitterdashboard" element={<TwitterdashBoard />} />
-          <Route path="/Youtubedashboard" element={<YoutubedashBoard />} />
-          <Route path="/Linksdashboard" element={<LinksdashBoard />} />
+          <Route path="/dashboard" element={<UniversalDashboard type="" title="All Content" />} />
+          <Route path="/Twitterdashboard" element={<UniversalDashboard type="twitter" title="Twitter Content" />} />
+          <Route path="/Youtubedashboard" element={<UniversalDashboard type="youtube" title="Youtube Content" />} />
+          <Route path="/Linksdashboard" element={<UniversalDashboard type="Link" title="Your Link's" />} />
           <Route path="/share/:shareLink" element={<ShareDashboard />} />
           <Route path="/ShareLinkDashboard" element={<ShareLinkDashboard />} />
           <Route path="/ShareYoutubeDashboard" element={<ShareYoutubeDashboard />} />

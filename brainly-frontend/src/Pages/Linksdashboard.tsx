@@ -4,7 +4,6 @@ import axios from "axios";
 import { Card, Card1 } from "../componets/Card1";
 import { CreateContentModal } from "../componets/CreateContentModal";
 import { Button } from "antd";
-import { SideBar } from "../componets/Sidebar";
 import { useContent } from "../hooks/useContent";
 import { LoadingIcon } from "../icon/LoadingIcon";
 import { BACKEND_URL } from "../config";
