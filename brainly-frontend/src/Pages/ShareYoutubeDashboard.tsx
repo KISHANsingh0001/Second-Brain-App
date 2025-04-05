@@ -7,6 +7,7 @@ import { HomeIcon } from "../icon/HomeIcon";
 
 import { exportedShareLink } from "./ShareDashboard";
 import { ShareCard1 } from "../componets/ShareCard1";
+import { YouTubeIcon } from "../icon/YoutubeIcon";
 export function ShareYoutubeDashboard() {
   const [username , setUsername] = useState<string | null>("");
   const [contents, setContents] = useState([]);
@@ -39,9 +40,9 @@ export function ShareYoutubeDashboard() {
       
       <div className="p-4 h-screen flex flex-col  min-h-screen bg-gray-100 bottom-2">
         <div className="flex justify-between gap-3 mb-4 flex-wrap items-center">
-          <div className="text-2xl font-bold flex mt-3 md:mt-0 justify-center items-center gap-3">
-            {/* <HomeIcon /> */}
-            {`Shared by ${username}`}
+          <div className="text-2xl font-bold flex mt-3 md:mt-0 justify-center items-center gap-3 border-b-2 border-gray-300 p-1 drop-shadow-lg">
+          <div><YouTubeIcon/></div>
+          <div>{`Shared by ${username}`}</div>
           </div>
         </div>
 

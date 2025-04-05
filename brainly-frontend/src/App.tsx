@@ -15,7 +15,7 @@ function App() {
   const location = useLocation();
 
   // Define routes where the original Sidebar should not appear
-  const noSidebarRoutes = ["/signup", "/signin"];
+  const noSidebarRoutes = ["/signup", "/signin" , "/"];
 
   // Define routes where ShareSidebar should appear
   const shareSidebarRoutes = [

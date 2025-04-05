@@ -4,15 +4,17 @@ import { Card1 } from "../componets/Card1";
 import { LoadingIcon } from "../icon/LoadingIcon";
 import { BACKEND_URL } from "../config";
 import { ShareCard1 } from "../componets/ShareCard1";
+import { HomeIcon } from "../icon/HomeIcon";
+import useGetUsername from "../hooks/useGetUsername";
 
 export let exportedShareLink: string | undefined; // variable to store the share hash
 
 export function ShareDashboard() {
-  const [username, setUsername] = useState<string | null>("");
+  // const [username, setUsername] = useState<string | null>("");
   const [contents, setContents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+ const {username} = useGetUsername();
   useEffect(() => {
     const fetchSharedContent = async () => {
       try {
@@ -24,8 +26,6 @@ export function ShareDashboard() {
         console.log(response);
         //@ts-ignore
         setContents(response.data.content || []);
-        //@ts-ignore
-        setUsername(response.data.email || "");
       } catch (err: any) {
         setError(err.response?.data?.msg || "Failed to load content.");
       } finally {
@@ -39,10 +39,11 @@ export function ShareDashboard() {
   return (
     <>
      
-      <div className="p-4 h-screen flex flex-col min-h-screen bg-gray-100 bottom-2">
+      <div className="p-4 h-screen flex flex-col min-h-screen bg-gray-100 bottom-2  ">
         <div className="flex justify-between gap-3 mb-4 flex-wrap items-center">
-          <div className="text-2xl font-bold flex mt-3 justify-center items-center gap-3">
-            {`Shared by ${username}`}
+          <div className="text-2xl font-bold flex mt-3 justify-center items-center gap-3 border-b-2 border-gray-300 p-1 drop-shadow-lg">
+            <div><HomeIcon/></div>
+            <div>{`Shared by ${username}`}</div>
           </div>
         </div>
 

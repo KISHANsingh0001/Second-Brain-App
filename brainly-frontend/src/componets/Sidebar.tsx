@@ -115,40 +115,40 @@ export function SideBar(props: SidebarProps) {
 
             {/* Sidebar Items */}
             {props.isShare === false ? 
-            <div onClick={() => navigate("/dashboard")}>
+            <div onClick={() => navigate("/dashboard")} className="cursor-pointer ">
               <SideBarItems text="Home" icon={<HomeIcon />} />
             </div> 
             : 
-            <div onClick={() => navigate(`/share/${exportedShareLink}`)}>
+            <div onClick={() => navigate(`/share/${exportedShareLink}`)} className="cursor-pointer">
               <SideBarItems text="Home" icon={<HomeIcon />} />
             </div>}
 
             {props.isShare === false ? 
-            <div onClick={() => navigate("/Twitterdashboard")}>
+            <div onClick={() => navigate("/Twitterdashboard")} className="cursor-pointer">
               <SideBarItems text="Twitter" icon={<TwitterIcon />} />
             </div>
             :
-            <div onClick={() => navigate("/ShareTwitterDashboard")}>
+            <div onClick={() => navigate("/ShareTwitterDashboard")} className="cursor-pointer">
               <SideBarItems text="Twitter" icon={<TwitterIcon />} />
             </div>
             }
 
             {props.isShare === false ? 
-            <div onClick={() => navigate("/Youtubedashboard")}>
+            <div onClick={() => navigate("/Youtubedashboard")} className="cursor-pointer">
               <SideBarItems text="Youtube" icon={<YouTubeIcon />} />
             </div>
             :
-            <div onClick={() => navigate("/ShareYoutubeDashboard")}>
+            <div onClick={() => navigate("/ShareYoutubeDashboard")} className="cursor-pointer">
             <SideBarItems text="Youtube" icon={<YouTubeIcon />} />
           </div>
           }
 
             {props.isShare === false ? 
-            <div onClick={() => navigate("/Linksdashboard")}>
+            <div onClick={() => navigate("/Linksdashboard")} className="cursor-pointer">
               <SideBarItems text="Links" icon={<LinkIcon />} />
             </div>
             :
-            <div onClick={() => navigate("/ShareLinkDashboard")}>
+            <div onClick={() => navigate("/ShareLinkDashboard")} className="cursor-pointer">
               <SideBarItems text="Links" icon={<LinkIcon />} />
             </div>}
           </div>

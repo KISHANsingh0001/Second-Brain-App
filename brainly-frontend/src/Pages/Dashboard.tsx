@@ -286,7 +286,7 @@ export function DashBoard() {
           open={modalOpen}
           onClose={() => setModalOpen(false)}
         />
-        <div className="flex justify-between mt-3 md:mt-0 gap-3 mb-4 flex-wrap items-center">
+        <div className="flex justify-between mt-3 md:mt-0 gap-3 mb-4 flex-wrap items-center border-b-2 border-gray-300 p-1 drop-shadow-lg">
           <div className="text-2xl font-bold flex justify-center items-center gap-3">
             <HomeIcon />
             All Content

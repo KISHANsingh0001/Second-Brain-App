@@ -66,7 +66,7 @@ export const Card1 = (props: CardProps) => {
       </div> */}
       {/* ---------------–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– */}
       <Card
-        style={{ width: 295 }}
+        style={{ width: 295 , cursor: "pointer" }}
         cover={
           <div>
             {props.type === "youtube" && (
