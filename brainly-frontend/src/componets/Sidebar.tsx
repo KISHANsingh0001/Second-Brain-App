@@ -156,7 +156,7 @@ export function SideBar(props: SidebarProps) {
 
         {/* Bottom Section */}
         {props.isShare == false ? <div className="p-4">
-          <Button type="primary" danger onClick={handleLogout}>
+         <Button type="primary" danger onClick={handleLogout} className="drop-shadow-lg">
             Logout
           </Button>
         </div> : ""}

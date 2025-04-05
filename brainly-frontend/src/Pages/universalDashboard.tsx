@@ -16,6 +16,7 @@ import {
 interface dashboardProps{
     type: string;
     title: string;
+    icon : JSX.Element;
 }
 export default function UniversalDashboard(props: dashboardProps) {
     const [share , setShare] = useState(false);
@@ -107,7 +108,7 @@ export default function UniversalDashboard(props: dashboardProps) {
    />
    <div className="flex justify-between mt-3 md:mt-0 gap-3 mb-4 flex-wrap items-center border-b-2 border-gray-300 p-1 drop-shadow-lg">
      <div className="text-2xl font-bold flex justify-center items-center gap-3">
-       <HomeIcon />
+       {props.icon}
        {props.title}
      </div>
      <div className="flex gap-3 flex-wrap">

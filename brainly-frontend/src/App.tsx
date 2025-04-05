@@ -1,16 +1,16 @@
-import { DashBoard } from "./Pages/Dashboard";
 import { SignUp } from "./Pages/SignUp";
 import { SignIn } from "./Pages/Signin";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { TwitterdashBoard } from "./Pages/Twitterdashboard";
-import { YoutubedashBoard } from "./Pages/Youtubedashboard";
-import { LinksdashBoard } from "./Pages/Linksdashboard";
 import { ShareDashboard } from "./Pages/ShareDashboard";
 import { ShareLinkDashboard } from "./Pages/ShareLinkDashboard";
 import { ShareYoutubeDashboard } from "./Pages/ShareYoutubeDashboard";
 import { ShareTwitterDashboard } from "./Pages/ShareTwitterDashboard";
 import { SideBar } from "./componets/Sidebar";
 import UniversalDashboard from "./Pages/universalDashboard";
+import { HomeIcon } from "./icon/HomeIcon";
+import { TwitterIcon } from "./icon/TwitterIcon";
+import { YouTubeIcon } from "./icon/YoutubeIcon";
+import { LinkIcon } from "./icon/LinkIcon";
 
 function App() {
   const location = useLocation();
@@ -41,10 +41,10 @@ function App() {
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/dashboard" element={<UniversalDashboard type="" title="All Content" />} />
-          <Route path="/Twitterdashboard" element={<UniversalDashboard type="twitter" title="Twitter Content" />} />
-          <Route path="/Youtubedashboard" element={<UniversalDashboard type="youtube" title="Youtube Content" />} />
-          <Route path="/Linksdashboard" element={<UniversalDashboard type="Link" title="Your Link's" />} />
+          <Route path="/dashboard" element={<UniversalDashboard type="" title="All Content" icon={<HomeIcon/>} />} />
+          <Route path="/Twitterdashboard" element={<UniversalDashboard type="twitter" title="Twitter Content" icon={<TwitterIcon/>} />} />
+          <Route path="/Youtubedashboard" element={<UniversalDashboard type="youtube" title="Youtube Content" icon={<YouTubeIcon/>} />} />
+          <Route path="/Linksdashboard" element={<UniversalDashboard type="Link" title="Your Link's" icon={<LinkIcon/>} />} />
           <Route path="/share/:shareLink" element={<ShareDashboard />} />
           <Route path="/ShareLinkDashboard" element={<ShareLinkDashboard />} />
           <Route path="/ShareYoutubeDashboard" element={<ShareYoutubeDashboard />} />
