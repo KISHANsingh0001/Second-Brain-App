@@ -39,8 +39,9 @@ export default function UniversalDashboard(props: dashboardProps) {
             },
           }
         );
-        //@ts-ignore
-        const shareUrl = `${window.location.origin}/share/${response.data.hash}`;
+        const data = response.data as { hash: string };
+        const shareUrl = `${window.location.origin}/share/${data.hash}`;
+        localStorage.setItem("ShareLink", data.hash);
         alert(`${shareUrl}`);
       } catch (error) {
         console.error("Error generating share link:", error);
@@ -60,7 +61,7 @@ export default function UniversalDashboard(props: dashboardProps) {
           }
         );
         //@ts-ignore
-        const shareUrl = `${window.location.origin}/share/${response.data.hash}`;
+        localStorage.removeItem("ShareLink");
         alert(`Now Your Brain is not Publicly Available`);
       } catch (error) {
         console.error("Error generating share link:", error);
@@ -101,17 +102,17 @@ export default function UniversalDashboard(props: dashboardProps) {
 
  return<>
  {/* <SideBar /> */}
- <div className="p-4 h-screen flex flex-col min-h-screen bg-gray-100 bottom-2">
+ <div className="p-4 h-screen flex flex-col min-h-screen bg-gray-100 bottom-2 ">
    <CreateContentModal
      open={modalOpen}
      onClose={() => setModalOpen(false)}
    />
-   <div className="flex justify-between mt-3 md:mt-0 gap-3 mb-4 flex-wrap items-center border-b-2 border-gray-300 p-1 drop-shadow-lg">
-     <div className="text-2xl font-bold flex justify-center items-center gap-3">
+   <div className="flex justify-between mt-3 md:mt-0 gap-3 mb-2 flex-wrap items-center border-b-2 border-gray-300 p-1 drop-shadow-lg">
+     <div className="text-2xl font-bold flex justify-center items-center gap-3  ">
        {props.icon}
        {props.title}
      </div>
-     <div className="flex gap-3 flex-wrap">
+     <div className="flex gap-3 flex-wrap mb-1">
        {share == false ? 
        <div>
          <Button

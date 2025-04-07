@@ -11,12 +11,15 @@ import { HomeIcon } from "./icon/HomeIcon";
 import { TwitterIcon } from "./icon/TwitterIcon";
 import { YouTubeIcon } from "./icon/YoutubeIcon";
 import { LinkIcon } from "./icon/LinkIcon";
+import { SidebarModified } from "./componets/RetractingSidebar";
+import { FiHome, FiLink, FiVideo } from "react-icons/fi";
+import { FaXTwitter } from "react-icons/fa6";
 
 function App() {
   const location = useLocation();
 
-  // Define routes where the original Sidebar should not appear
-  const noSidebarRoutes = ["/signup", "/signin" , "/"];
+  // Define routes where the Sidebar should not appear
+  const noSidebarRoutes = ["/signup", "/signin", "/"];
 
   // Define routes where ShareSidebar should appear
   const shareSidebarRoutes = [
@@ -26,32 +29,52 @@ function App() {
     "/ShareTwitterDashboard",
   ];
 
-  // Check current route matches any of the shareSidebarRoutes
+  // Check if the current route matches any of the shareSidebarRoutes
   const isShareSidebar = shareSidebarRoutes.some((route) =>
     location.pathname.startsWith(route.replace(":shareLink", ""))
   );
 
-  return (
-    <>
-      {/* Conditionally render the appropriate sidebar */}
-      {!noSidebarRoutes.includes(location.pathname) &&
-        (isShareSidebar ? <SideBar isShare={true} /> : <SideBar isShare={false} />)}
+  const isSignupOrSignin = noSidebarRoutes.includes(location.pathname);
 
-      <div className={!noSidebarRoutes.includes(location.pathname) ? "lg:ml-72" : ""}>
+  return (
+    <div className="h-screen flex">
+      {/* Conditionally render the  sidebar */}
+      {!noSidebarRoutes.includes(location.pathname) &&
+        (isShareSidebar ? (
+          <SidebarModified share={true} />
+        ) : (
+          <SidebarModified share={false} />
+        ))}
+
+      {/* Main content area */}
+      <div className="flex-1 overflow-y-auto">
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/dashboard" element={<UniversalDashboard type="" title="All Content" icon={<HomeIcon/>} />} />
-          <Route path="/Twitterdashboard" element={<UniversalDashboard type="twitter" title="Twitter Content" icon={<TwitterIcon/>} />} />
-          <Route path="/Youtubedashboard" element={<UniversalDashboard type="youtube" title="Youtube Content" icon={<YouTubeIcon/>} />} />
-          <Route path="/Linksdashboard" element={<UniversalDashboard type="Link" title="Your Link's" icon={<LinkIcon/>} />} />
+          <Route
+            path="/dashboard"
+            element={<UniversalDashboard type="" title="All Content" icon={<FiHome />} />}
+          />
+          <Route
+            path="/Twitterdashboard"
+            element={<UniversalDashboard type="twitter" title="Twitter Content" icon={<FaXTwitter />} />}
+          />
+          <Route
+            path="/Youtubedashboard"
+            element={<UniversalDashboard type="youtube" title="YouTube Content" icon={<FiVideo />} />}
+          />
+          <Route
+            path="/Linksdashboard"
+            element={<UniversalDashboard type="Link" title="Your Links" icon={<FiLink />} />}
+          />
           <Route path="/share/:shareLink" element={<ShareDashboard />} />
           <Route path="/ShareLinkDashboard" element={<ShareLinkDashboard />} />
           <Route path="/ShareYoutubeDashboard" element={<ShareYoutubeDashboard />} />
           <Route path="/ShareTwitterDashboard" element={<ShareTwitterDashboard />} />
+         
         </Routes>
       </div>
-    </>
+    </div>
   );
 }
 

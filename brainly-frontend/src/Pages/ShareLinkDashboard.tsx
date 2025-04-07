@@ -3,25 +3,24 @@ import axios from "axios";
 import { LoadingIcon } from "../icon/LoadingIcon";
 import { BACKEND_URL } from "../config";
 import { ShareCard1 } from "../componets/ShareCard1";
-import { exportedShareLink } from "./ShareDashboard";
 import { LinkIcon } from "../icon/LinkIcon";
+import useGetUsername from "../hooks/useGetUsername";
 export function ShareLinkDashboard() {
-  const [username , setUsername] = useState<string | null>("");
+  // const [username , setUsername] = useState<string | null>("");
   const [contents, setContents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const {username} = useGetUsername();
 
   useEffect(() => {
     const fetchSharedContent = async () => {
       try {
         setLoading(true);
-        const shareLink = window.location.pathname.split("/").pop(); // Extract the share link from the URL
-        const response = await axios.get(`${BACKEND_URL}/api/v1/${exportedShareLink}`);
+        const shareLink = localStorage.getItem("ShareLink");
+        const response = await axios.get(`${BACKEND_URL}/api/v1/${shareLink}`);
         console.log(response);
         //@ts-ignore
         setContents(response.data.content || []);
-        //@ts-ignore
-        setUsername(response.data.email || "");
       } catch (err: any) {
         setError(err.response?.data?.msg || "Failed to load content.");
       } finally {

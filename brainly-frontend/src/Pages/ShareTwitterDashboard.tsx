@@ -2,26 +2,26 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { LoadingIcon } from "../icon/LoadingIcon";
 import { BACKEND_URL } from "../config";
-import { exportedShareLink } from "./ShareDashboard";
 import { ShareCard1 } from "../componets/ShareCard1";
-import { TwitterIcon } from "../icon/TwitterIcon";
+import useGetUsername from "../hooks/useGetUsername";
+import { useParams } from "react-router-dom";
+import { FaXTwitter } from "react-icons/fa6";
 export function ShareTwitterDashboard() {
-  const [username , setUsername] = useState<string | null>("");
   const [contents, setContents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const {username} = useGetUsername();
 
   useEffect(() => {
     const fetchSharedContent = async () => {
       try {
         setLoading(true);
-        const shareLink = window.location.pathname.split("/").pop(); // Extract the share link from the URL
-        const response = await axios.get(`${BACKEND_URL}/api/v1/${exportedShareLink}`);
+        const shareLink =  localStorage.getItem("ShareLink");
+        const response = await axios.get(`${BACKEND_URL}/api/v1/${shareLink}`);
         console.log(response);
         //@ts-ignore
         setContents(response.data.content || []);
         //@ts-ignore
-        setUsername(response.data.email || "");
       } catch (err: any) {
         setError(err.response?.data?.msg || "Failed to load content.");
       } finally {
@@ -38,7 +38,7 @@ export function ShareTwitterDashboard() {
       <div className="p-4 h-screen flex flex-col  min-h-screen bg-gray-100 bottom-2">
         <div className="flex justify-between gap-3 mb-4 flex-wrap items-center">
           <div className="text-2xl font-bold flex  mt-3 md:mt-0  justify-center items-center gap-3 border-b-2 border-gray-300 p-1 drop-shadow-lg">
-          <div><TwitterIcon/></div>
+          <div><FaXTwitter/></div>
           <div>{`Shared by ${username}`}</div>
           </div>
         </div>

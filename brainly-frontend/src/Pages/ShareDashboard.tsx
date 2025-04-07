@@ -6,7 +6,6 @@ import { ShareCard1 } from "../componets/ShareCard1";
 import { HomeIcon } from "../icon/HomeIcon";
 import useGetUsername from "../hooks/useGetUsername";
 
-export let exportedShareLink: string | undefined; // variable to store the share hash
 
 export function ShareDashboard() {
   // const [username, setUsername] = useState<string | null>("");
@@ -18,9 +17,9 @@ export function ShareDashboard() {
     const fetchSharedContent = async () => {
       try {
         setLoading(true);
-        const shareLink = window.location.pathname.split("/").pop(); // Extracting the share hash from the URL
-        exportedShareLink = shareLink; // Store the share hash in the exported variablee
-
+        const shareLink = localStorage.getItem("ShareLink");
+        console.log("ShareLink : " + shareLink);
+      
         const response = await axios.get(`${BACKEND_URL}/api/v1/${shareLink}`);
         console.log(response);
         //@ts-ignore
