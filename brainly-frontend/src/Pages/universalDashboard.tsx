@@ -5,13 +5,12 @@ import { CreateContentModal } from "../componets/CreateContentModal";
 import { useContent } from "../hooks/useContent";
 import { LoadingIcon } from "../icon/LoadingIcon";
 import { BACKEND_URL } from "../config";
-import { Button , Tooltip , FloatButton, message } from "antd";
+import { Button , Popover, Tooltip , message } from "antd";
 import {
   ApiTwoTone,
   FolderAddOutlined,
   ShareAltOutlined,
 } from "@ant-design/icons"
-import MoonIcon from "../icon/MoonIcon";
 
 
 interface dashboardProps{
@@ -123,55 +122,60 @@ export default function UniversalDashboard(props: dashboardProps) {
        {props.title}
      </div>
      <div className="flex gap-3 flex-wrap mb-1">
-      
-       {share == false ? 
-       <div>
-        <Tooltip 
-        title={"Click to Generate a Shareable Link"} color="red" trigger={"hover"} arrow>
-         <Button
-         icon={<ShareAltOutlined />}
-         size="large"
-         onClick={shareLinkTrue}
-         
-       >
-         Share Content
-       </Button>
-        </Tooltip>
-       </div> : 
+            <Popover
+              content={
+                shareLink ? (
+                  <div>
+                    <p className="text-sm break-all text-blue-500">{shareLink}</p>
+                  </div>
+                ) : (
+                  <p className="text-sm text-red-600">No link generated yet.</p>
+                )
+              }
+              title="Shareable Link"
+              trigger="hover"
+            >
+              {share === false ? (
+              
+                  <Button
+                    icon={<ShareAltOutlined />}
+                    size="large"
+                    onClick={shareLinkTrue}
+                  >
+                    Share Content
+                  </Button>
+                
+              ) : (
+               
+                  <Button
+                    icon={<ApiTwoTone />}
+                    size="large"
+                    onClick={shareLinkFalse}
+                    danger
+                  >
+                    UnShare Content
+                  </Button>
+                
+              )}
+            </Popover>
 
-       <div>
-        <Tooltip
-        title={`Sharable Link : ${shareLink}`}
-        color="red"
-        trigger={"hover"}
-        arrow
-        >
-         <Button
-         icon={<ApiTwoTone />}
-         size="large"
-         onClick={shareLinkFalse}
-         danger
-       >
-         UnShare Content
-       </Button>
-        </Tooltip>
-
-       </div>}
-
-      <Tooltip
-       title={`Add New Content to Your Brain`}
-       trigger={"hover"}
-       color="geekblue"
-       arrow>
-      <Button
-         onClick={() => setModalOpen(true)}
-         type="primary"
-         size="large"
-         icon={<FolderAddOutlined />}
-       >Add Content</Button>
-      </Tooltip>
-     </div>
-   </div>
+            <Tooltip
+              title={`Add New Content to Your Brain`}
+              trigger={"hover"}
+              color="geekblue"
+              arrow
+            >
+              <Button
+                onClick={() => setModalOpen(true)}
+                type="primary"
+                size="large"
+                icon={<FolderAddOutlined />}
+              >
+                Add Content
+              </Button>
+            </Tooltip>
+          </div>
+        </div>
 
    {/* Scrollable container for cards */}
    <div className="flex-1 overflow-y-auto justify-center items-center">
