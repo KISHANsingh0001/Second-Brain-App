@@ -120,11 +120,13 @@ app.post("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter
     const type = req.body.type;
     const link = req.body.link;
     const title = req.body.title;
+    const description = req.body.description;
     try {
         yield db_1.Content.create({
             type,
             link,
             title,
+            description,
             tags: [],
             //@ts-ignore
             userId: req.userId,

@@ -5,20 +5,25 @@ import { CreateContentModal } from "../componets/CreateContentModal";
 import { useContent } from "../hooks/useContent";
 import { LoadingIcon } from "../icon/LoadingIcon";
 import { BACKEND_URL } from "../config";
-import { HomeIcon } from "../icon/HomeIcon";
-import { Button } from "antd";
+import { Button , Tooltip , FloatButton, message } from "antd";
 import {
   ApiTwoTone,
   FolderAddOutlined,
   ShareAltOutlined,
 } from "@ant-design/icons"
+import MoonIcon from "../icon/MoonIcon";
+
 
 interface dashboardProps{
     type: string;
     title: string;
     icon : JSX.Element;
+    
 }
 export default function UniversalDashboard(props: dashboardProps) {
+    const [shareLink, setShareLink] = useState<string | null>(
+      localStorage.getItem("ShareLink") || null
+    );
     const [share , setShare] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const { contents, loading, refresh, setContents } = useContent();
@@ -41,8 +46,10 @@ export default function UniversalDashboard(props: dashboardProps) {
         );
         const data = response.data as { hash: string };
         const shareUrl = `${window.location.origin}/share/${data.hash}`;
+        setShareLink(shareUrl);
         localStorage.setItem("ShareLink", data.hash);
-        alert(`${shareUrl}`);
+        // alert(`${shareUrl}`);
+        message.success(`Your Shareable Link : ${shareUrl}`);
       } catch (error) {
         console.error("Error generating share link:", error);
         alert("Failed to generate share link.");
@@ -60,9 +67,11 @@ export default function UniversalDashboard(props: dashboardProps) {
             },
           }
         );
+        setShareLink(null);
         //@ts-ignore
         localStorage.removeItem("ShareLink");
-        alert(`Now Your Brain is not Publicly Available`);
+        // alert(`Now Your Brain is not Publicly Available`);
+        message.warning(`Now Your Brain is not Publicly Available`);
       } catch (error) {
         console.error("Error generating share link:", error);
         alert("Failed to generate share link.");
@@ -79,6 +88,7 @@ export default function UniversalDashboard(props: dashboardProps) {
             Authorization: localStorage.getItem("token") || "",
           },
         });
+        message.success(`Deleted Successfully`)
         refresh();
         
         setContents((prevContents) =>
@@ -102,7 +112,7 @@ export default function UniversalDashboard(props: dashboardProps) {
 
  return<>
  {/* <SideBar /> */}
- <div className="p-4 h-screen flex flex-col min-h-screen bg-gray-100 bottom-2 ">
+ <div className="p-4 h-screen flex flex-col min-h-screen bg-gray-100 dark:bg-darkBackground dark:text-white bottom-2 ">
    <CreateContentModal
      open={modalOpen}
      onClose={() => setModalOpen(false)}
@@ -113,8 +123,11 @@ export default function UniversalDashboard(props: dashboardProps) {
        {props.title}
      </div>
      <div className="flex gap-3 flex-wrap mb-1">
+      
        {share == false ? 
        <div>
+        <Tooltip 
+        title={"Click to Generate a Shareable Link"} color="red" trigger={"hover"} arrow>
          <Button
          icon={<ShareAltOutlined />}
          size="large"
@@ -123,7 +136,16 @@ export default function UniversalDashboard(props: dashboardProps) {
        >
          Share Content
        </Button>
-       </div> : <div>
+        </Tooltip>
+       </div> : 
+
+       <div>
+        <Tooltip
+        title={`Sharable Link : ${shareLink}`}
+        color="red"
+        trigger={"hover"}
+        arrow
+        >
          <Button
          icon={<ApiTwoTone />}
          size="large"
@@ -132,13 +154,22 @@ export default function UniversalDashboard(props: dashboardProps) {
        >
          UnShare Content
        </Button>
+        </Tooltip>
+
        </div>}
-       <Button
+
+      <Tooltip
+       title={`Add New Content to Your Brain`}
+       trigger={"hover"}
+       color="geekblue"
+       arrow>
+      <Button
          onClick={() => setModalOpen(true)}
          type="primary"
          size="large"
          icon={<FolderAddOutlined />}
        >Add Content</Button>
+      </Tooltip>
      </div>
    </div>
 
@@ -150,13 +181,14 @@ export default function UniversalDashboard(props: dashboardProps) {
            <LoadingIcon />
          </div>
        ) : fillteredContents?.length > 0 ? (
-          fillteredContents.map(({ _id, link, type, title }) => (
+          fillteredContents.map(({ _id, link, type, title , description }) => (
            <Card1
              _id={_id}
              key={_id}
              type={type}
              link={link}
              title={title}
+             description={description}
              onDelete={() => handleDelete(_id)}
            />
          ))

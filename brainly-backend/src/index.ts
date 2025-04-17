@@ -117,11 +117,13 @@ app.post("/api/v1/content", userMiddleware, async (req, res) => {
     const type = req.body.type;
     const link = req.body.link;
     const title = req.body.title;
+    const description = req.body.description;
     try {
         await Content.create({
             type,
             link,
             title,
+            description,
             tags: [],
             //@ts-ignore
             userId: req.userId,
@@ -295,7 +297,7 @@ app.get("/users", userMiddleware , async (req , res)=>{
             msg: "Internal server error"
         });
     }
-})
+});
 
 
 app.listen(3003);

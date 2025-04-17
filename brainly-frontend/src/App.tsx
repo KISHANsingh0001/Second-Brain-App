@@ -5,12 +5,7 @@ import { ShareDashboard } from "./Pages/ShareDashboard";
 import { ShareLinkDashboard } from "./Pages/ShareLinkDashboard";
 import { ShareYoutubeDashboard } from "./Pages/ShareYoutubeDashboard";
 import { ShareTwitterDashboard } from "./Pages/ShareTwitterDashboard";
-import { SideBar } from "./componets/Sidebar";
 import UniversalDashboard from "./Pages/universalDashboard";
-import { HomeIcon } from "./icon/HomeIcon";
-import { TwitterIcon } from "./icon/TwitterIcon";
-import { YouTubeIcon } from "./icon/YoutubeIcon";
-import { LinkIcon } from "./icon/LinkIcon";
 import { SidebarModified } from "./componets/RetractingSidebar";
 import { FiHome, FiLink, FiVideo } from "react-icons/fi";
 import { FaXTwitter } from "react-icons/fa6";
@@ -33,8 +28,6 @@ function App() {
   const isShareSidebar = shareSidebarRoutes.some((route) =>
     location.pathname.startsWith(route.replace(":shareLink", ""))
   );
-
-  const isSignupOrSignin = noSidebarRoutes.includes(location.pathname);
 
   return (
     <div className="h-screen flex">

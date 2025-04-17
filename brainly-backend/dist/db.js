@@ -40,7 +40,7 @@ const contentSchema = new mongoose_1.Schema({
     type: { type: String, required: true },
     link: { type: String, required: true },
     title: { type: String, required: true },
-    tags: [{ type: mongoose_1.Types.ObjectId, ref: "Tag" }],
+    description: { type: String },
     userId: { type: mongoose_1.Types.ObjectId, ref: "User", },
 });
 // This is the Link Schema

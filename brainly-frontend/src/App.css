@@ -1,8 +1,35 @@
-/* Custom class to hide the scrollbar */
-.no-scrollbar::-webkit-scrollbar {
-    display: none; /* For Chrome, Safari, and Opera */
+
+  .dark .dark-card{
+    box-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.1), 
+                0 4px 4px -1px rgba(255, 255, 255, 0.1);
   }
-  .no-scrollbar {
-    -ms-overflow-style: none; /* For Internet Explorer and Edge */
-    scrollbar-width: none; /* For Firefox */
+  .dark .dark-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(255, 255, 255, 0.1), 
+                0 4px 6px -2px rgba(255, 255, 255, 0.05);
   }
+  .dark .dark-card .ant-card-actions {
+    background-color: #1a202c ;
+    border-top: 1px solid #3a3a3a ;
+  }
+/* Hide scrollbar for the Twitter card */
+.twitter-card {
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+.twitter-card::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
+
+.tweet-container{
+  padding: 3px;
+
+}
+.youtube{
+  padding: 1px;
+}
+
+.youtube-container {
+  aspect-ratio: 16 / 9; /* Standard video aspect ratio */
+  width: 100%; /* Takes full width of parent */
+}

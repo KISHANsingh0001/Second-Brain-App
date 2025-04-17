@@ -18,7 +18,7 @@ const contentSchema = new Schema({
   type: { type: String, required: true },
   link: { type: String, required: true },
   title: { type: String, required: true },
-  tags: [{ type: Types.ObjectId, ref: "Tag" }],
+  description: { type: String },
   userId: { type: Types.ObjectId, ref: "User", },
 });
 

@@ -3,9 +3,17 @@
         "filltered",
         "Linksdashboard",
         "Redirecticon",
+        "Sucsses",
         "Twitterdash",
         "twttr",
         "Youtubedash",
         "Youtubedashboard"
-    ]
+    ],
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false,
+        "typescriptreact": false
+    }
 }

@@ -8,6 +8,7 @@ interface ContentItem {
   title: string;
   type: "Link" |"twitter" | "youtube";
   link: string;
+  description?: string;
 }
 
 export function useContent() {
@@ -25,6 +26,7 @@ export function useContent() {
       );
       //@ts-ignore
       setContents(response.data?.content || []);
+      console.log(contents);
     } catch (err: any) {
       // Use a generic type for errors
       setError(err.response?.data?.message || err.message);

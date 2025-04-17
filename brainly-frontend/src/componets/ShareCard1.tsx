@@ -1,8 +1,11 @@
 
 import "../App.css"
-import { useEffect } from "react";
-import { Card } from "antd";
-import { LinkOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Card, Tooltip } from "antd";
+import { LinkOutlined } from "@ant-design/icons";
+import { Tweet } from 'react-tweet'
+import YouTube from "react-youtube";
+import { LinkIcon } from "../icon/LinkIcon";
+import {motion} from 'framer-motion'
 const { Meta } = Card;
 
 declare global {
@@ -15,23 +18,33 @@ interface CardProps {
   title: string;
   link: string;
   type: "twitter" | "youtube" | "Link";
+  description?: string;
   onDelete?: () => void;
 }
 export const ShareCard1 = (props: CardProps) => {
-  useEffect(() => {
-    if (props.type === "twitter" && window.twttr) {
-      window.twttr.widgets.load();
-    }
-  }, [props.type]);
 
-  const getEmbedUrl = (url: string) => {
-    const videoId = url.split("v=")[1];
-    const PositionAmpersand = videoId.indexOf("&");
-    return PositionAmpersand !== -1 ? videoId.substring(0, PositionAmpersand) : videoId;
+  const getTweetId = (url: string) => {
+    const parts = url.split("/");
+    return parts[parts.length - 1];
   };
 
+  const getYoutubeId = (url: string) => {
+    const videoId = url.split("v=")[1];
+    const PositionAmpersand = videoId.indexOf("&");
+    return PositionAmpersand !== -1
+      ? videoId.substring(0, PositionAmpersand)
+      : videoId;
+  }
+
+
+
+
   return (
-    <div className="drop-shadow-lg">
+    <motion.div
+    whileHover={{ scale: 1.05 }} // Scale up slightly on hover
+    transition={{ duration: 0.3 }} 
+    className="drop-shadow-lg bg-white rounded-xl hover:shadow-xl transition-all"
+  >
       {/* <div className="bg-white rounded-md  border outline-gray-200 max-w-72 p-1 min-h-48 min-w-72 max-h-10 overflow-y-scroll no-scrollbar ">
         <div className="flex justify-between ">
           <div className="flex items-center text-md">
@@ -66,50 +79,71 @@ export const ShareCard1 = (props: CardProps) => {
       </div> */}
       {/* ---------------–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– */}
       <Card
+        className="dark-card dark:bg-darkBackground dark:border-white dark:text-white bg-white border-black-100"
         style={{ width: 295 }}
         cover={
-          <div>
+          <div className="dark:bg-darkBackground dark:text-white">
             {props.type === "youtube" && (
-              <div className="">
-                <iframe
-                  className="w-full"
-                  src={`https://www.youtube.com/embed/${getEmbedUrl(props.link)}`}
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                ></iframe></div>
+              <div className="dark:bg-darkBackground dark:text-white">
+                <YouTube
+                  videoId={getYoutubeId(props.link)}
+                  opts={{
+                    width: "100%",
+                    height: "20%",
+                  }}
+                  className="youtube dark:border-2"
+                /></div>
             )}
 
             {props.type === "twitter" && (
-              <div style={{ width: "100%", overflow: "hidden", overflowY: "auto", height: 155 }}>
-                <blockquote className="twitter-tweet" data-theme="white" data-align="center">
-                  <a href={props.link.replace("x.com", "twitter.com")}></a>
-                </blockquote>
+              <div className="tweet-container w-full h-[150.3px] overflow-y-auto dark:dark light dark:border-2">
+                <Tweet id={getTweetId(props.link)} />
 
               </div>
             )}
 
             {props.type === "Link" && (
-              <img src="https://static.vecteezy.com/system/resources/previews/006/693/402/non_2x/link-icon-template-black-color-editable-free-vector.jpg" className="object-cover w-[100%] h-[150.3px]" />
+              <div className="flex justify-center items-center h-[150.3px] dark:border-2">
+                <LinkIcon />
+              </div>
             )}
           </div>
         }
         actions={[
-          <div>
-            <a href={props.link} target="_blank">
-              <LinkOutlined key="link" />
-            </a>
-          </div>,
-        
+          <Tooltip
+            title={`Open the Content in a New Tab`}
+            trigger={"hover"}
+            arrow
+            color="blue">
+
+            <div>
+              <a href={props.link} target="_blank">
+                <LinkOutlined key="link" className="dark:text-white" />
+              </a>
+            </div>
+          </Tooltip>,
+
         ]}
       >
         <Meta
-          title={props.title}
-          description="Description Option Will be Coming Soon.."
+          title={
+            <span className="dark:text-white text-gray-900">{props.title}</span>
+          }
+          description={
+            <div
+              className="dark:text-gray-300 text-gray-700"
+              style={{
+                height: "35px", // fixed height for the description
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {props.description || "Description is not Given"}
+            </div>
+          }
         />
       </Card>
-    </div>
+    </motion.div>
   );
 };
