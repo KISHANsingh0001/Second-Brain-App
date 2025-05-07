@@ -1,6 +1,6 @@
 
 import "../App.css"
-import { Card, Tooltip } from "antd";
+import { Card, message, Tooltip } from "antd";
 import { LinkOutlined } from "@ant-design/icons";
 import { Tweet } from 'react-tweet'
 import YouTube from "react-youtube";
@@ -29,12 +29,24 @@ export const ShareCard1 = (props: CardProps) => {
   };
 
   const getYoutubeId = (url: string) => {
-    const videoId = url.split("v=")[1];
-    const PositionAmpersand = videoId.indexOf("&");
-    return PositionAmpersand !== -1
-      ? videoId.substring(0, PositionAmpersand)
-      : videoId;
-  }
+    try {
+      // Check if it's a video URL (v=)
+      if (url.includes("v=")) {
+        const videoId = url.split("v=")[1];
+        const ampersandPos = videoId.indexOf("&");
+        return ampersandPos !== -1 ? videoId.substring(0, ampersandPos) : videoId;
+      }// Check if it's a playlist URL (list=)
+      else if (url.includes("list=")) {
+        const playlistId = url.split("list=")[1];
+        const ampersandPos = playlistId.indexOf("&");
+        return ampersandPos !== -1 ? playlistId.substring(0, ampersandPos) : playlistId;
+      }
+    } catch (error) {
+      message.warning("Enter the Correct URL of Youtube Video(not Youtube Shorts or Anything");
+      console.error("Error extracting YouTube video ID:", error);
+      return ""; // Return an empty string or handle the error as needed
+    }
+  };
 
 
 
@@ -85,14 +97,32 @@ export const ShareCard1 = (props: CardProps) => {
           <div className="dark:bg-darkBackground dark:text-white">
             {props.type === "youtube" && (
               <div className="dark:bg-darkBackground dark:text-white">
-                <YouTube
-                  videoId={getYoutubeId(props.link)}
-                  opts={{
-                    width: "100%",
-                    height: "20%",
-                  }}
-                  className="youtube dark:border-2"
-                /></div>
+                {props.link.includes("list=") ? (
+                  // Embed playlist
+                  <YouTube
+                    videoId={null} // Playlist URL HAI
+                    opts={{
+                      playerVars: {
+                        listType: "playlist",
+                        list: getYoutubeId(props.link), // Pass the playlist ID
+                      },
+                      width: "100%",
+                      height: "150.3px",
+                    }}
+                    className="youtube dark:border-2 "
+                  />
+                ) : (
+                  // Embed single video
+                  <YouTube
+                    videoId={getYoutubeId(props.link)} // Pass the video ID
+                    opts={{
+                      width: "100%",
+                      height: "150.3px",
+                    }}
+                    className="youtube dark:border-2"
+                  />
+                )}
+              </div>
             )}
 
             {props.type === "twitter" && (

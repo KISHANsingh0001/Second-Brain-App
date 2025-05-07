@@ -366,7 +366,7 @@ export const Card1 = (props: CardProps) => {
       whileHover={{ scale: 1.05 }} // Scale up  on hover
 
 
-      transition={{ duration: 0.3 }} // Smooth transition
+      transition={{ duration: 0.2 }} // Smooth transition
       className="drop-shadow-lg bg-white rounded-xl hover:shadow-xl transition-all"
     >
       <Card
@@ -405,7 +405,7 @@ export const Card1 = (props: CardProps) => {
             )}
 
             {props.type === "twitter" && (
-              <div className="tweet-container w-full h-[150.3px] overflow-y-auto dark:dark light dark:border-2">
+              <div className="tweet-container w-full h-[154.4px] overflow-y-auto dark:dark light dark:border-2">
                 <Tweet id={getTweetId(props.link)} />
               </div>
             )}
