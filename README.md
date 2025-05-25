@@ -129,8 +129,8 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 ---
 
 📄 License
-© 2025 Kishan Singh Thakur. All rights reserved.
-This project is licensed under the MIT License.
+© 2025 Kishan Singh Thakur. All rights reserved.<br/>
+   This project is licensed under the MIT License.
 
 ---
 
