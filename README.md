@@ -104,8 +104,8 @@ Traditional bookmarking tools are limited and often become cluttered or hard to 
 1. **Clone the Repository**  
    ```bash
    git clone https://github.com/yourusername/second-brain.git
-   cd second-brain
-   cd brainly-backend
+  
+   
 2. **Setup Backend**  
    ```bash
    cd brainly-backend
