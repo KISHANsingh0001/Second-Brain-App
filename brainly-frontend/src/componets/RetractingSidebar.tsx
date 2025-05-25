@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiChevronsRight, FiHome, FiLink, FiLogOut, FiVideo } from "react-icons/fi";
 import { FaXTwitter } from "react-icons/fa6";
 import { motion } from "framer-motion";
@@ -14,7 +14,19 @@ export const SidebarModified = ({ share }: isShare) => {
     const navigate = useNavigate();
     const [open, setOpen] = useState<boolean>(true);
     const [selected, setSelected] = useState<string>("Home");
+    useEffect(()=>{
+      const handleResize = () => {
+        if(window.innerWidth < 821){
+            setOpen(false);
+        }else{
+            setOpen(true);
+        }
+      };
+      handleResize();
+      window.addEventListener("resize" , handleResize);
 
+      return ()=> window.removeEventListener("resize" , handleResize);
+    } , []);
     return <motion.div
 
         className=" dark:bg-darkBackground dark:text-white sticky top-0 h-screen shrink-0 border-r border-slate-300 bg-white p-2 md:relative"

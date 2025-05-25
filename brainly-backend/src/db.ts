@@ -1,6 +1,5 @@
 import mongoose, { Schema, Types, model } from "mongoose";
 
-// const contentTypes = ["image", "video", "article", "audio"]; // Extend as needed
 
 // This is the  User Schema
 const userSchema = new Schema({

@@ -25,7 +25,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Link = exports.Content = exports.Tag = exports.User = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-// const contentTypes = ["image", "video", "article", "audio"]; // Extend as needed
 // This is the  User Schema
 const userSchema = new mongoose_1.Schema({
     email: { type: String, required: true },
