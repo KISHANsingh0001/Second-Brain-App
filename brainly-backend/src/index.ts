@@ -3,7 +3,6 @@ import { z } from 'zod';
 import { Content, Link, User } from "./db";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { JWT_SECRET, MONGO_URL } from "./config";
 import mongoose from "mongoose";
 import { userMiddleware } from "./Middleware/middleware";
 import { random } from "./utils";
@@ -15,7 +14,7 @@ app.use(express.json());
 app.use(cors());
 
 // Database Connection String  
-mongoose.connect(MONGO_URL)
+mongoose.connect(process.env.MONGO_URL as string)
     .then(() => console.log("Database connected Successfully"))
     .catch((err) => console.error("Database connection Error ", err))
 
@@ -94,7 +93,7 @@ app.post("/api/v1/signin", async (req, res) => {
         const passwordMatched = await bcrypt.compare(password, user.password);
 
         if (passwordMatched) {
-            const token = jwt.sign({ id: user._id }, JWT_SECRET);
+            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET as string);
             res.status(200).json({
                 email,
                 msg: "You are signed in",

@@ -379,7 +379,6 @@ export const Card1 = (props: CardProps) => {
                 {props.link.includes("list=") ? (
                   // Embed playlist
                   <YouTube
-                    videoId={null} // Playlist URL HAI
                     opts={{
                       playerVars: {
                         listType: "playlist",

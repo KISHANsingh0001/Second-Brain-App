@@ -17,7 +17,6 @@ const zod_1 = require("zod");
 const db_1 = require("./db");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const config_1 = require("./config");
 const mongoose_1 = __importDefault(require("mongoose"));
 const middleware_1 = require("./Middleware/middleware");
 const utils_1 = require("./utils");
@@ -27,7 +26,7 @@ const cors_1 = __importDefault(require("cors"));
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 // Database Connection String  
-mongoose_1.default.connect(config_1.MONGO_URL)
+mongoose_1.default.connect(process.env.MONGO_URL)
     .then(() => console.log("Database connected Successfully"))
     .catch((err) => console.error("Database connection Error ", err));
 app.post("/api/v1/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -96,7 +95,7 @@ app.post("/api/v1/signin", (req, res) => __awaiter(void 0, void 0, void 0, funct
         }
         const passwordMatched = yield bcrypt_1.default.compare(password, user.password);
         if (passwordMatched) {
-            const token = jsonwebtoken_1.default.sign({ id: user._id }, config_1.JWT_SECRET);
+            const token = jsonwebtoken_1.default.sign({ id: user._id }, process.env.JWT_SECRET);
             res.status(200).json({
                 email,
                 msg: "You are signed in",
