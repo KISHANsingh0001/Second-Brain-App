@@ -5,8 +5,6 @@ import { Button } from "antd";
 import { ApiTwoTone, FolderAddOutlined, ShareAltOutlined } from "@ant-design/icons";
 import { Card1 } from "../componets/Card1";
 import { CreateContentModal } from "../componets/CreateContentModal";
-import { PlusIcon } from "../icon/Plusicon";
-import { ShareIcon } from "../icon/Shareicon";
 // import { SideBar } from "../componets/Sidebar";
 import { useContent } from "../hooks/useContent";
 import { LoadingIcon } from "../icon/LoadingIcon";
@@ -15,7 +13,7 @@ import { TwitterIcon } from "../icon/TwitterIcon";
 
 export function TwitterdashBoard() {
   const [modalOpen, setModalOpen] = useState(false);
-  const { contents, loading, refresh , setContents } = useContent();
+  const { contents, loading, refresh } = useContent();
   
   useEffect(() => {
     refresh();

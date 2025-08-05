@@ -3,7 +3,6 @@ import axios from "axios";
 import { LoadingIcon } from "../icon/LoadingIcon";
 import { BACKEND_URL } from "../config";
 import { ShareCard1 } from "../componets/ShareCard1";
-import { LinkIcon } from "../icon/LinkIcon";
 import useGetUsername from "../hooks/useGetUsername";
 import { LinkIconShare } from "../icon/LinkIconShare";
 export function ShareLinkDashboard() {

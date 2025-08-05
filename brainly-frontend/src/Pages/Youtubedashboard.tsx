@@ -15,7 +15,7 @@ import { YouTubeIcon } from "../icon/YoutubeIcon";
 
 export function YoutubedashBoard() {
   const [modalOpen, setModalOpen] = useState(false);
-  const { contents, loading, refresh, setContents } = useContent();
+  const { contents, loading, refresh } = useContent();
 
   useEffect(() => {
     refresh();
