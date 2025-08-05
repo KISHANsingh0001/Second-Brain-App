@@ -1,5 +1,5 @@
 
-export function ModalSignUp({ show, onClose , text }:any) {
+export function ModalSignUp({ show, onClose  }:any) {
     if (!show) return null;
   
     return (

@@ -7,7 +7,7 @@ import { ShareAltOutlined , FolderAddOutlined, ApiTwoTone } from "@ant-design/ic
 import { Card1 } from "../componets/Card1";
 import { CreateContentModal } from "../componets/CreateContentModal";
 
-import { SideBar } from "../componets/Sidebar";
+// import { SideBar } from "../componets/Sidebar";
 import { useContent } from "../hooks/useContent";
 import { LoadingIcon } from "../icon/LoadingIcon";
 import { BACKEND_URL } from "../config";
