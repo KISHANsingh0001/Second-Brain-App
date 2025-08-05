@@ -53,7 +53,7 @@ export function SignUp() {
     } catch (err) {
       // Extract `msg` from the error response
       //@ts-ignore
-      const errorMessage = "Signup failed. Maybe Password not contains one Spacial,Uppercase,Lowercase Latter";
+      const errorMessage = "Signup failed. Maybe Email is Already Taken or Password not contains one Special,Uppercase,Lowercase Letter";
       setError(errorMessage); // Update error state
     } finally {
       setLoading(false);
