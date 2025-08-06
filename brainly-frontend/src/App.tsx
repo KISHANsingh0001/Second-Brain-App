@@ -61,9 +61,9 @@ function App() {
             element={<UniversalDashboard type="Link" title="Your Links" icon={<FiLink />} />}
           />
           <Route path="/share/:shareLink" element={<ShareDashboard />} />
-          <Route path="/ShareLinkDashboard" element={<ShareLinkDashboard />} />
-          <Route path="/ShareYoutubeDashboard" element={<ShareYoutubeDashboard />} />
-          <Route path="/ShareTwitterDashboard" element={<ShareTwitterDashboard />} />
+          <Route path="/ShareLinkDashboard/:shareLink" element={<ShareLinkDashboard />} />
+          <Route path="/ShareYoutubeDashboard/:shareLink" element={<ShareYoutubeDashboard />} />
+          <Route path="/ShareTwitterDashboard/:shareLink" element={<ShareTwitterDashboard />} />
          
         </Routes>
       </div>

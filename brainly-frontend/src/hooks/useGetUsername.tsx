@@ -17,7 +17,7 @@ export default function useGetUsername() {
       setLoading1(true);
       setError(null); 
 
-      const response = await axios.get<UserResponse>(`${BACKEND_URL}/users`, {
+      const response = await axios.get<UserResponse>(`${BACKEND_URL}/api/v1/users`, {
         headers: { Authorization: localStorage.getItem("token") || "" },
       });
 

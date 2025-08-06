@@ -12,11 +12,16 @@ export function ShareLinkDashboard() {
   const [error, setError] = useState<string | null>(null);
   const {username} = useGetUsername();
 
+  const pathname = window.location.pathname;
+  const parts = pathname.split("/");
+  const shareLink = parts[parts.length - 1];
+
+console.log("Extracted share link from ShareLinkDashboard:", shareLink); 
   useEffect(() => {
     const fetchSharedContent = async () => {
       try {
         setLoading(true);
-        const shareLink = localStorage.getItem("ShareLink");
+        // const shareLink = localStorage.getItem("shareLink");
         const response = await axios.get(`${BACKEND_URL}/api/v1/${shareLink}`);
         console.log(response);
         //@ts-ignore

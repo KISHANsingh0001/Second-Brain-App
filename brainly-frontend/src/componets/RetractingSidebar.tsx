@@ -10,10 +10,16 @@ interface isShare {
     share: boolean
 }
 export const SidebarModified = ({ share }: isShare) => {
-    const ShareLink = localStorage.getItem("ShareLink");
+    // const ShareLink = localStorage.getItem("ShareLink");
     const navigate = useNavigate();
     const [open, setOpen] = useState<boolean>(true);
     const [selected, setSelected] = useState<string>("Home");
+
+    const pathname = window.location.pathname;
+    const parts = pathname.split("/");
+    const ShareLink = parts[parts.length - 1];
+
+    console.log("Extracted share link From SideBar Modified:", ShareLink); 
     useEffect(()=>{
       const handleResize = () => {
         if(window.innerWidth < 821){
@@ -44,13 +50,13 @@ export const SidebarModified = ({ share }: isShare) => {
             {share == false ?
                 <div onClick={() => navigate("/Youtubedashboard")}><Option Icon={FiVideo} title="YouTube" selected={selected} setSelected={setSelected} open={open} /></div>
                 :
-                <div onClick={() => navigate("/ShareYoutubeDashboard")}><Option Icon={FiVideo} title="YouTube" selected={selected} setSelected={setSelected} open={open} /></div>}
+                <div onClick={() => navigate(`/ShareYoutubeDashboard/${ShareLink}`)}><Option Icon={FiVideo} title="YouTube" selected={selected} setSelected={setSelected} open={open} /></div>}
 
             {share == false ?
                 <div onClick={() => navigate("/Twitterdashboard")}><Option Icon={FaXTwitter} title="Twitter" selected={selected} setSelected={setSelected} open={open} /></div> :
-                <div onClick={() => navigate("/ShareTwitterDashboard")}><Option Icon={FaXTwitter} title="Twitter" selected={selected} setSelected={setSelected} open={open} /></div>}
+                <div onClick={() => navigate(`/ShareTwitterDashboard/${ShareLink}`)}><Option Icon={FaXTwitter} title="Twitter" selected={selected} setSelected={setSelected} open={open} /></div>}
 
-            {share == false ? <div onClick={() => navigate("/Linksdashboard")} ><Option Icon={FiLink} title="Links" selected={selected} setSelected={setSelected} open={open} /></div> : <div onClick={() => navigate("/ShareLinkDashboard")}><Option Icon={FiLink} title="Links" selected={selected} setSelected={setSelected} open={open} /></div>}
+            {share == false ? <div onClick={() => navigate("/Linksdashboard")} ><Option Icon={FiLink} title="Links" selected={selected} setSelected={setSelected} open={open} /></div> : <div onClick={() => navigate(`/ShareLinkDashboard/${ShareLink}`)}><Option Icon={FiLink} title="Links" selected={selected} setSelected={setSelected} open={open} /></div>}
         </div>
         {/* @ts-ignore */}
         <ToggleClose open={open} setOpen={setOpen} share={share} />

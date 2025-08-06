@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.random = random;
 function random(len) {
-    let options = "qwertyuiopasdfghjklzxcvbnm1234567890";
+    let options = "qwertyuiopasdfghjklzxcvbnm1234567890abcdefghijklmnopqrstuvwxyz";
     let length = options.length;
     let ans = "";
     for (let i = 0; i < len; i++) {

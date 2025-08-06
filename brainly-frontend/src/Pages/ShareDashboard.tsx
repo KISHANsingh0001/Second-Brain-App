@@ -5,21 +5,33 @@ import { BACKEND_URL } from "../config";
 import { ShareCard1 } from "../componets/ShareCard1";
 import { HomeIcon } from "../icon/HomeIcon";
 import useGetUsername from "../hooks/useGetUsername";
+import { useLocation, useParams } from "react-router-dom";
+
 
 
 export function ShareDashboard() {
   // const [username, setUsername] = useState<string | null>("");
   const [contents, setContents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+ const [error, setError] = useState<string | null>(null);
+
  const {username} = useGetUsername();
+ const location = useLocation();
+ console.log(location);
+const pathname = window.location.pathname;
+const parts = pathname.split("/");
+const shareLink = parts[parts.length - 1];
+
+console.log("Extracted share link from ShareDashboard:", shareLink); 
+console.log("Username : " + username);
+ 
   useEffect(() => {
     const fetchSharedContent = async () => {
       try {
         setLoading(true);
-        const shareLink = localStorage.getItem("ShareLink");
-        console.log("ShareLink : " + shareLink);
-      
+        // localStorage.setItem("shareLink" , shareLink );
+        // console.log("ShareLink1 : " + shareLink1);
+         
         const response = await axios.get(`${BACKEND_URL}/api/v1/${shareLink}`);
         console.log(response);
         //@ts-ignore
@@ -32,7 +44,7 @@ export function ShareDashboard() {
     };
 
     fetchSharedContent();
-  }, []);
+  }, [shareLink]);
 
   return (
     <>
