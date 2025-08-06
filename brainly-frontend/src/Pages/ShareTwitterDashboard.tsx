@@ -3,13 +3,12 @@ import axios from "axios";
 import { LoadingIcon } from "../icon/LoadingIcon";
 import { BACKEND_URL } from "../config";
 import { ShareCard1 } from "../componets/ShareCard1";
-import useGetUsername from "../hooks/useGetUsername";
 import { FaXTwitter } from "react-icons/fa6";
 export function ShareTwitterDashboard() {
   const [contents, setContents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const {username} = useGetUsername();
+  const [username , setUsername] = useState("");
   const pathname = window.location.pathname;
   const parts = pathname.split("/");
   const shareLink = parts[parts.length - 1];
@@ -25,6 +24,9 @@ console.log("Extracted share link from ShareTwitterDashboard:", shareLink);
         //@ts-ignore
         setContents(response.data.content || []);
         //@ts-ignore
+        const email = response.data.email;
+        const extractedUsername = email.split("@")[0];
+        setUsername(extractedUsername || "");
       } catch (err: any) {
         setError(err.response?.data?.msg || "Failed to load content.");
       } finally {

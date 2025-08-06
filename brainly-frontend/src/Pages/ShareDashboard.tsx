@@ -15,8 +15,9 @@ export function ShareDashboard() {
   const [loading, setLoading] = useState(true);
  const [error, setError] = useState<string | null>(null);
 
- const {username} = useGetUsername();
+ const [username , setUsername] = useState< String | "" >("");
  const location = useLocation();
+
  console.log(location);
 const pathname = window.location.pathname;
 const parts = pathname.split("/");
@@ -24,6 +25,8 @@ const shareLink = parts[parts.length - 1];
 
 console.log("Extracted share link from ShareDashboard:", shareLink); 
 console.log("Username : " + username);
+
+
  
   useEffect(() => {
     const fetchSharedContent = async () => {
@@ -33,9 +36,14 @@ console.log("Username : " + username);
         // console.log("ShareLink1 : " + shareLink1);
          
         const response = await axios.get(`${BACKEND_URL}/api/v1/${shareLink}`);
-        console.log(response);
+
+        console.log(`Response From ShareDashBoard ${response}`);
         //@ts-ignore
         setContents(response.data.content || []);
+        //@ts-ignore
+        const email = response.data.email;
+        const extractedUsername = email.split("@")[0];
+        setUsername(extractedUsername || "");
       } catch (err: any) {
         setError(err.response?.data?.msg || "Failed to load content.");
       } finally {

@@ -237,7 +237,6 @@ app.post("/api/v1/brain/share", middleware_1.userMiddleware, (req, res) => __awa
 }));
 app.get("/api/v1/:shareLink", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const hash = req.params.shareLink;
-    //  Finding the hash from the link table
     const link = yield db_1.Link.findOne({
         hash
     });

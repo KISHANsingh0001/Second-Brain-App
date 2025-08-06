@@ -238,7 +238,7 @@ app.post("/api/v1/brain/share", userMiddleware, async (req: AuthenticatedRequest
 
 app.get("/api/v1/:shareLink", async (req, res) => {
     const hash = req.params.shareLink;
-    //  Finding the hash from the link table
+
     const link = await Link.findOne({
         hash
     });
@@ -249,14 +249,17 @@ app.get("/api/v1/:shareLink", async (req, res) => {
         })
         return;
     }
+
     // Find the content from the Content table 
     const content = await Content.find({
         userId: link.userId
     })
+
     // Finding the user 
     const user = await User.findOne({
         _id: link.userId
     });
+    
     // if User is not found then it will happen usually it will not happen
     if (!user) {
         res.status(500).json({
