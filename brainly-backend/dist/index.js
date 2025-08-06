@@ -208,15 +208,9 @@ app.post("/api/v1/brain/share", middleware_1.userMiddleware, (req, res) => __awa
             }
             const hash = (0, utils_1.random)(10);
             yield db_1.Link.create({ hash, userId });
-            const user = yield db_1.User.findOne({ _id: userId }).select('email');
-            if (!user) {
-                res.status(404).json({ msg: "User Not Found" });
-                return;
-            }
             res.status(201).json({
                 msg: "Sharable link generated",
-                hash,
-                email: user === null || user === void 0 ? void 0 : user.email
+                hash
             });
             return;
         }

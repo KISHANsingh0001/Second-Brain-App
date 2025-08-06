@@ -209,15 +209,10 @@ app.post("/api/v1/brain/share", userMiddleware, async (req: AuthenticatedRequest
             }
             const hash = random(10);
             await Link.create({ hash, userId });
-            const user = await User.findOne({ _id: userId }).select('email');
-            if (!user) {
-                res.status(404).json({ msg: "User Not Found" });
-                return;
-            }
+           
             res.status(201).json({
                 msg: "Sharable link generated",
-                hash,
-                email: user?.email
+                hash
             });
 
             return;
@@ -259,7 +254,7 @@ app.get("/api/v1/:shareLink", async (req, res) => {
     const user = await User.findOne({
         _id: link.userId
     });
-    
+
     // if User is not found then it will happen usually it will not happen
     if (!user) {
         res.status(500).json({
