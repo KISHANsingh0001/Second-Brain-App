@@ -20,6 +20,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const middleware_1 = require("./Middleware/middleware");
 const utils_1 = require("./utils");
+const axios_1 = __importDefault(require("axios"));
 require('dotenv').config();
 const app = (0, express_1.default)();
 const cors_1 = __importDefault(require("cors"));
@@ -283,6 +284,26 @@ app.get("/users", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, v
         res.status(500).json({
             msg: "Internal server error"
         });
+    }
+}));
+app.get('/api/youtube-title', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { videoId } = req.query;
+    if (!videoId) {
+        res.status(400).json({ error: "Missing videoId" });
+        return;
+    }
+    const apiKey = process.env.YOUTUBE_API_KEY;
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${apiKey}`;
+    try {
+        const response = yield axios_1.default.get(url);
+        const items = response.data.items;
+        if (!items || !items.length)
+            res.status(404).json({ error: "Not found" });
+        res.json({ title: items[0].snippet.title });
+    }
+    catch (e) {
+        console.log(e);
+        res.status(500).json({ error: "Failed to fetch" });
     }
 }));
 app.listen(3003);

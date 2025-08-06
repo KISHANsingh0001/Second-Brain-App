@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 import mongoose from "mongoose";
 import { userMiddleware } from "./Middleware/middleware";
 import { random } from "./utils";
+import axios from 'axios'
 require('dotenv').config();
 import { AuthenticatedRequest } from './types/index';
 
@@ -209,7 +210,7 @@ app.post("/api/v1/brain/share", userMiddleware, async (req: AuthenticatedRequest
             }
             const hash = random(10);
             await Link.create({ hash, userId });
-           
+
             res.status(201).json({
                 msg: "Sharable link generated",
                 hash
@@ -290,6 +291,26 @@ app.get("/users", userMiddleware, async (req, res) => {
         res.status(500).json({
             msg: "Internal server error"
         });
+    }
+});
+
+app.get('/api/youtube-title', async (req: AuthenticatedRequest, res: Response) => {
+    const  {videoId}  = req.query;
+    if (!videoId){
+        res.status(400).json({ error: "Missing videoId" });
+        return;
+    }
+       
+    const apiKey = process.env.YOUTUBE_API_KEY ;
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${apiKey}`;
+    try {
+        const response = await axios.get(url);
+        const items = response.data.items;
+        if (!items || !items.length) res.status(404).json({ error: "Not found" });
+        res.json({ title: items[0].snippet.title });
+    } catch (e) {
+        
+        res.status(500).json({ error: "Failed to fetch" });
     }
 });
 
