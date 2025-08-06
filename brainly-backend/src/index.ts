@@ -1,4 +1,5 @@
 import express from "express";
+import { Request, Response } from "express";
 import { z } from 'zod';
 import { Content, Link, User } from "./db";
 import bcrypt from 'bcrypt';
@@ -7,6 +8,8 @@ import mongoose from "mongoose";
 import { userMiddleware } from "./Middleware/middleware";
 import { random } from "./utils";
 require('dotenv').config();
+import { AuthenticatedRequest } from './types/index';
+
 const app = express();
 import cors from 'cors'
 
@@ -18,7 +21,7 @@ mongoose.connect(process.env.MONGO_URL as string)
     .then(() => console.log("Database connected Successfully"))
     .catch((err) => console.error("Database connection Error ", err))
 
-app.post("/api/v1/signup", async (req, res) => {
+app.post("/api/v1/signup", async (req: Request, res: Response) => {
     const requireBody = z.object({
         email: z.string().email("Invalid Email Formate"),
         password: z.string().
@@ -41,13 +44,13 @@ app.post("/api/v1/signup", async (req, res) => {
             message: error.message,    // e.g., "Password must contain at least one uppercase letter"
         }));
 
-         res.status(400).json({
+        res.status(400).json({
             errors: errors[0].message, // Send an array of field-specific error messages
         });
         return;
     }
-    
-    
+
+
     const { email, password } = requireBodyWithSafeParse.data;
     try {
         const userExist = await User.findOne({ email: email });
@@ -67,7 +70,7 @@ app.post("/api/v1/signup", async (req, res) => {
 
 
         res.status(201).json({
-            email:email,
+            email: email,
             msg: "User signed up successfully"
         });
     }
@@ -112,7 +115,7 @@ app.post("/api/v1/signin", async (req, res) => {
     }
 });
 
-app.post("/api/v1/content", userMiddleware, async (req, res) => {
+app.post("/api/v1/content", userMiddleware, async (req: AuthenticatedRequest, res: Response) => {
     const type = req.body.type;
     const link = req.body.link;
     const title = req.body.title;
@@ -124,7 +127,6 @@ app.post("/api/v1/content", userMiddleware, async (req, res) => {
             title,
             description,
             tags: [],
-            //@ts-ignore
             userId: req.userId,
         })
         res.status(201).json({
@@ -138,9 +140,9 @@ app.post("/api/v1/content", userMiddleware, async (req, res) => {
     }
 });
 
-app.get("/api/v1/content", userMiddleware, async (req, res) => {
+app.get("/api/v1/content", userMiddleware, async (req: AuthenticatedRequest, res: Response) => {
     try {
-        //@ts-ignore
+
         const userId = req.userId;
         const content = await Content.find({
             userId: userId
@@ -161,7 +163,7 @@ app.get("/api/v1/content", userMiddleware, async (req, res) => {
     }
 });
 
-app.delete("/api/v1/content", userMiddleware, async (req, res) => {
+app.delete("/api/v1/content", userMiddleware, async (req: AuthenticatedRequest, res: Response) => {
     try {
         const contentId = req.body.contentId;
         console.log(contentId)
@@ -171,7 +173,7 @@ app.delete("/api/v1/content", userMiddleware, async (req, res) => {
             })
             return;
         }
-        //@ts-ignore
+
         const userId = req.userId;
         const result = await Content.deleteOne({ _id: contentId, userId });
 
@@ -192,14 +194,12 @@ app.delete("/api/v1/content", userMiddleware, async (req, res) => {
     }
 });
 
-app.post("/api/v1/brain/share", userMiddleware, async (req, res) => {
+app.post("/api/v1/brain/share", userMiddleware, async (req: AuthenticatedRequest, res: Response) => {
     const share = req.body.share;
+    const userId = req.userId;
     try {
         if (share) {
-            const existingLink = await Link.findOne({
-                //@ts-ignore
-                userId: req.userId
-            });
+            const existingLink = await Link.findOne({ userId });
             if (existingLink) {
                 res.status(200).json({
                     msg: "Sharable link already generated",
@@ -207,90 +207,87 @@ app.post("/api/v1/brain/share", userMiddleware, async (req, res) => {
                 });
                 return;
             }
-            const hash: string = random(10);
-            await Link.create({
-                hash: hash,
-                //@ts-ignore
-                userId: req.userId,
-            });
+            const hash = random(10);
+            await Link.create({ hash, userId });
+            const user = await User.findOne({ _id: userId }).select('email');
+            if (!user) {
+                res.status(404).json({ msg: "User Not Found" });
+                return;
+            }
             res.status(201).json({
-                msg: "Sharable link generated successfully",
-                hash
+                msg: "Sharable link generated",
+                hash,
+                email: user?.email
             });
+
+            return;
         } else {
-            const deletedUser = await Link.deleteOne({
-                //@ts-ignore
-                userId: req.userId
-            })
-            if (deletedUser.deletedCount > 0) {
-                res.status(200).json({
-                    msg: "Link removed successfully"
-                });
+            const deleted = await Link.deleteOne({ userId });
+            if (deleted.deletedCount > 0) {
+                res.status(200).json({ msg: "Link removed successfully" });
             } else {
-                res.status(404).json({
-                    msg: "No link to remove"
-                });
+                res.status(404).json({ msg: "No link to remove" });
             }
         }
-    } catch (e) {
-        res.status(500).json({
-            msg: "Internal server error",
-        });
+    } catch (err) {
+        console.error("Error in /share:", err);
+        res.status(500).json({ msg: "Internal server error" });
     }
-});
+}
+);
 
 app.get("/api/v1/:shareLink", async (req, res) => {
     const hash = req.params.shareLink;
-//  Finding the hash from the link table
-    const link = await Link.findOne({ 
+    //  Finding the hash from the link table
+    const link = await Link.findOne({
         hash
     });
-   // Link is not found 
+    // Link is not found 
     if (!link) {
         res.status(404).json({
             msg: "Page not found"
         })
         return;
     }
-   // Find the content from the Content table 
+    // Find the content from the Content table 
     const content = await Content.find({
         userId: link.userId
     })
-  // Finding the user 
+    // Finding the user 
     const user = await User.findOne({
         _id: link.userId
     });
-  // if User is not found then it will happen usually it will not happen
+    // if User is not found then it will happen usually it will not happen
     if (!user) {
         res.status(500).json({
             msg: "User not found, unexpected error"
         });
         return;
     }
-  // Finial return the email and content of the user 
+    // Finial return the email and content of the user 
     res.status(200).json({
         email: user.email,
         content: content
     })
 });
 
-app.get("/users", userMiddleware , async (req , res)=>{
-    try{
+app.get("/users", userMiddleware, async (req, res) => {
+    try {
         //@ts-ignore
         const userId = req.userId;
-        const users = await User.find({_id:userId}).select("email");
-        if(users.length > 0){
+        const users = await User.find({ _id: userId }).select("email");
+        if (users.length > 0) {
             res.status(200).json({
-                users:users[0].email
+                users: users[0].email
             });
         }
-        else{
+        else {
             res.status(404).json({
                 msg: "No users found"
             })
         }
 
-    }catch(e){
+    } catch (e) {
         console.error("Error fetching users", e);
         res.status(500).json({
             msg: "Internal server error"

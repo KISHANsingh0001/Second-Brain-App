@@ -127,7 +127,6 @@ app.post("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter
             title,
             description,
             tags: [],
-            //@ts-ignore
             userId: req.userId,
         });
         res.status(201).json({
@@ -143,7 +142,6 @@ app.post("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter
 }));
 app.get("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        //@ts-ignore
         const userId = req.userId;
         const content = yield db_1.Content.find({
             userId: userId
@@ -175,7 +173,6 @@ app.delete("/api/v1/content", middleware_1.userMiddleware, (req, res) => __await
             });
             return;
         }
-        //@ts-ignore
         const userId = req.userId;
         const result = yield db_1.Content.deleteOne({ _id: contentId, userId });
         if (result.deletedCount > 0) {
@@ -198,12 +195,10 @@ app.delete("/api/v1/content", middleware_1.userMiddleware, (req, res) => __await
 }));
 app.post("/api/v1/brain/share", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const share = req.body.share;
+    const userId = req.userId;
     try {
         if (share) {
-            const existingLink = yield db_1.Link.findOne({
-                //@ts-ignore
-                userId: req.userId
-            });
+            const existingLink = yield db_1.Link.findOne({ userId });
             if (existingLink) {
                 res.status(200).json({
                     msg: "Sharable link already generated",
@@ -212,37 +207,32 @@ app.post("/api/v1/brain/share", middleware_1.userMiddleware, (req, res) => __awa
                 return;
             }
             const hash = (0, utils_1.random)(10);
-            yield db_1.Link.create({
-                hash: hash,
-                //@ts-ignore
-                userId: req.userId,
-            });
+            yield db_1.Link.create({ hash, userId });
+            const user = yield db_1.User.findOne({ _id: userId }).select('email');
+            if (!user) {
+                res.status(404).json({ msg: "User Not Found" });
+                return;
+            }
             res.status(201).json({
-                msg: "Sharable link generated successfully",
-                hash
+                msg: "Sharable link generated",
+                hash,
+                email: user === null || user === void 0 ? void 0 : user.email
             });
+            return;
         }
         else {
-            const deletedUser = yield db_1.Link.deleteOne({
-                //@ts-ignore
-                userId: req.userId
-            });
-            if (deletedUser.deletedCount > 0) {
-                res.status(200).json({
-                    msg: "Link removed successfully"
-                });
+            const deleted = yield db_1.Link.deleteOne({ userId });
+            if (deleted.deletedCount > 0) {
+                res.status(200).json({ msg: "Link removed successfully" });
             }
             else {
-                res.status(404).json({
-                    msg: "No link to remove"
-                });
+                res.status(404).json({ msg: "No link to remove" });
             }
         }
     }
-    catch (e) {
-        res.status(500).json({
-            msg: "Internal server error",
-        });
+    catch (err) {
+        console.error("Error in /share:", err);
+        res.status(500).json({ msg: "Internal server error" });
     }
 }));
 app.get("/api/v1/:shareLink", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
