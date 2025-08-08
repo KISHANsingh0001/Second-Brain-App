@@ -85,7 +85,7 @@ console.log("Username : " + username);
                   link={link}
                   title={title}
                   description={description}
-                  onDelete={undefined} // Disable delete functionality
+                 
                 />
               ))
             ) : (

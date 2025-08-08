@@ -20,6 +20,9 @@
 .twitter-card::-webkit-scrollbar {
   display: none; /* For Chrome, Safari, and Opera */
 }
+.tweet-container::-webkit-scrollbar {
+  display: none;
+}
 
 .tweet-container{
   padding: 3px;
@@ -33,3 +36,10 @@
   aspect-ratio: 16 / 9; /* Standard video aspect ratio */
   width: 100%; /* Takes full width of parent */
 }
+
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+}
+
