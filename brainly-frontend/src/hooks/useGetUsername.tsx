@@ -17,9 +17,10 @@ export default function useGetUsername() {
       setLoading1(true);
       setError(null); 
 
-      const response = await axios.get<UserResponse>(`${BACKEND_URL}/api/v1/users`, {
+      const response = await axios.get<UserResponse>(`${BACKEND_URL}/users`, {
         headers: { Authorization: localStorage.getItem("token") || "" },
       });
+      console.log(response);
 
       // Extract the email from the response
       const email = response.data.users; // Ensure `users` exists in the response

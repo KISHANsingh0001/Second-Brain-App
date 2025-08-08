@@ -139,6 +139,7 @@ type ToggleCloseProps = {
 
 const TitleSection = ({ open }: TitleSectionProps) => {
     const { username } = useGetUsername();
+    console.log(`Username : ${username}`)
     return (
         <div className="mb-3 border-b border-slate-300 pb-3 dark:text-white">
             <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors ">

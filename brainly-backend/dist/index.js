@@ -302,7 +302,6 @@ app.get('/api/youtube-title', (req, res) => __awaiter(void 0, void 0, void 0, fu
         res.json({ title: items[0].snippet.title });
     }
     catch (e) {
-        console.log(e);
         res.status(500).json({ error: "Failed to fetch" });
     }
 }));
