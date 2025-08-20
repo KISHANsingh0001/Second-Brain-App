@@ -96,7 +96,7 @@ app.post("/api/v1/signin", (req, res) => __awaiter(void 0, void 0, void 0, funct
         }
         const passwordMatched = yield bcrypt_1.default.compare(password, user.password);
         if (passwordMatched) {
-            const token = jsonwebtoken_1.default.sign({ id: user._id }, process.env.JWT_SECRET);
+            const token = jsonwebtoken_1.default.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '3d' });
             res.status(200).json({
                 email,
                 msg: "You are signed in",

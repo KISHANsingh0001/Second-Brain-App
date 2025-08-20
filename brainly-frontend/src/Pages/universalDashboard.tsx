@@ -67,7 +67,7 @@ export default function UniversalDashboard(props: dashboardProps) {
           }
         );
         setShareLink(null);
-        //@ts-ignore
+        
         localStorage.removeItem("ShareLink");
         // alert(`Now Your Brain is not Publicly Available`);
         message.warning(`Now Your Brain is not Publicly Available`);
@@ -89,8 +89,9 @@ export default function UniversalDashboard(props: dashboardProps) {
         });
         message.success(`Deleted Successfully`)
         refresh();
-        
+        //@ts-ignore
         setContents((prevContents) =>
+          //@ts-ignore
           prevContents.filter((content) => content._id !== contentId)
         );
       } catch (error) {
@@ -121,7 +122,7 @@ export default function UniversalDashboard(props: dashboardProps) {
        {props.icon}
        {props.title}
      </div>
-     <div className="flex gap-3 flex-wrap mb-1">
+     <div className="flex gap-1 mb-1 md:gap-2 lg:gap-4">
             <Popover
               content={
                 shareLink ? (
@@ -181,8 +182,8 @@ export default function UniversalDashboard(props: dashboardProps) {
    <div className="flex-1 overflow-y-auto justify-center items-center">
      <div className="flex gap-6 flex-wrap items-center">
        {loading ? (
-         <div className="flex justify-center items-center w-full">
-           <LoadingIcon />
+         <div className="flex justify-center items-center w-screen h-screen">
+          <span className="loader"></span>
          </div>
        ) : fillteredContents?.length > 0 ? (
           fillteredContents.map(({ _id, link, type, title , description }) => (

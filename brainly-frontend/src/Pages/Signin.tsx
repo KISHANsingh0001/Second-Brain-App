@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LoadingIcon } from "../icon/LoadingIcon";
 import { Input } from "../componets/Input";
 import { BACKEND_URL } from "../config";
@@ -7,7 +7,6 @@ import { ModalSignIn } from "../componets/ModalSignIn";
 import { Link, useNavigate } from "react-router-dom";
 
 export function SignIn() {
-  const [showPassword , setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false); // To show modal on success
   const [error, setError] = useState<string | null>(null); // To store error messages
@@ -15,6 +14,47 @@ export function SignIn() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+        const checkExistingToken = async () => {
+          setLoading(true)
+            const token = localStorage.getItem("token");
+            
+            if (token) {
+                try {
+                    // Verify token is still valid by making a test request
+                    const response = await axios.get(`${BACKEND_URL}/api/v1/content`, {
+                        headers: {
+                            Authorization: token
+                        }
+                    });
+                    
+                    // If request succeeds, token is valid - redirect to dashboard
+                    if (response.status === 200) {
+                        navigate("/dashboard");
+                        return;
+                    }
+                } catch (error) {
+                    // Token is invalid or expired, remove it
+                    localStorage.removeItem("token");
+                    console.log("Token expired or invalid, removed from storage");
+                }
+            }
+            
+            setLoading(false);
+        };
+
+        checkExistingToken();
+    }, [navigate]);
+
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center min-h-screen bg-white dark:bg-darkBackground">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+                <span className="ml-3 text-gray-600 dark:text-white">Checking authentication...</span>
+            </div>
+        );
+    }
 
   const handleSubmit = async () => {
     setLoading(true);

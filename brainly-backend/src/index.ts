@@ -97,7 +97,7 @@ app.post("/api/v1/signin", async (req, res) => {
         const passwordMatched = await bcrypt.compare(password, user.password);
 
         if (passwordMatched) {
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET as string);
+            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET as string , {expiresIn:'3d'});
             res.status(200).json({
                 email,
                 msg: "You are signed in",
