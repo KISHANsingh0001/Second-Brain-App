@@ -10,9 +10,44 @@ interface CreateContentModalProps {
 }
 // Helper to extract YouTube video ID
 function extractYouTubeVideoId(url: string): string | null {
-  const regExp = /(?:youtube\.com\/.*[?&]v=|youtu\.be\/)([^&?/]{11})/;
-  const match = url.match(regExp);
-  return match ? match[1] : null;
+  try {
+    // Handle youtu.be format (mobile share links)
+    if (url.includes("youtu.be/")) {
+      const videoId = url.split("youtu.be/")[1];
+      // Remove any query parameters (like ?si=...)
+      const questionPos = videoId.indexOf("?");
+      return questionPos !== -1 ? videoId.substring(0, questionPos) : videoId;
+    }
+    // Handle youtube.com/watch?v= format
+    else if (url.includes("v=")) {
+      const videoId = url.split("v=")[1];
+      const ampersandPos = videoId.indexOf("&");
+      return ampersandPos !== -1 ? videoId.substring(0, ampersandPos) : videoId;
+    }
+    // Handle YouTube Shorts - youtube.com/shorts/VIDEO_ID
+    else if (url.includes("/shorts/")) {
+      const shortId = url.split("/shorts/")[1];
+      const questionPos = shortId.indexOf("?");
+      return questionPos !== -1 ? shortId.substring(0, questionPos) : shortId;
+    }
+    // Handle youtube.com/embed/ format
+    else if (url.includes("/embed/")) {
+      const videoId = url.split("/embed/")[1];
+      const questionPos = videoId.indexOf("?");
+      return questionPos !== -1 ? videoId.substring(0, questionPos) : videoId;
+    }
+    // Handle m.youtube.com mobile URLs
+    else if (url.includes("m.youtube.com/watch?v=")) {
+      const videoId = url.split("v=")[1];
+      const ampersandPos = videoId.indexOf("&");
+      return ampersandPos !== -1 ? videoId.substring(0, ampersandPos) : videoId;
+    }
+    
+    return null;
+  } catch (error) {
+    console.error("Error extracting YouTube ID:", error);
+    return null;
+  }
 }
 
 export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
@@ -36,7 +71,7 @@ export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
 
     const videoId = extractYouTubeVideoId(url);
     if (!videoId) {
-      message.error("Invalid YouTube link.");
+      message.error("Invalid YouTube link or maybe you have put the youtube shorts link.");
       return;
     }
 
