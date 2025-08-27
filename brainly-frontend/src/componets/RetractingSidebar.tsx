@@ -3,15 +3,17 @@ import { FiChevronsRight, FiHome, FiLink, FiLogOut, FiVideo } from "react-icons/
 import { FaXTwitter } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { Logo } from "../icon/Logo";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import useGetUsername from "../hooks/useGetUsername";
 import DarkModeToggle from "./darkMode";
+
 interface isShare {
     share: boolean
 }
+
 export const SidebarModified = ({ share }: isShare) => {
-    // const ShareLink = localStorage.getItem("ShareLink");
     const navigate = useNavigate();
+    const location = useLocation(); 
     const [open, setOpen] = useState<boolean>(true);
     const [selected, setSelected] = useState<string>("Home");
 
@@ -19,7 +21,20 @@ export const SidebarModified = ({ share }: isShare) => {
     const parts = pathname.split("/");
     const ShareLink = parts[parts.length - 1];
 
-    console.log("Extracted share link From SideBar Modified:", ShareLink); 
+    // Update selected based on current route
+    useEffect(() => {
+        // Determine which section is active based on pathname
+        if (location.pathname.includes("Youtube") || location.pathname.includes("youtube")) {
+            setSelected("YouTube");
+        } else if (location.pathname.includes("Twitter") || location.pathname.includes("twitter")) {
+            setSelected("Twitter");
+        } else if (location.pathname.includes("Links") || location.pathname.includes("link")) {
+            setSelected("Links");
+        } else if (location.pathname.includes("dashboard") || location.pathname.includes("share")) {
+            setSelected("Home");
+        }
+    }, [location.pathname]);
+
     useEffect(()=>{
       const handleResize = () => {
         if(window.innerWidth < 821){
@@ -33,35 +48,66 @@ export const SidebarModified = ({ share }: isShare) => {
 
       return ()=> window.removeEventListener("resize" , handleResize);
     } , []);
-    return <motion.div
+    
+    // Helper function to navigate and set selected
+    const handleNavigation = (path: string, title: string) => {
+        setSelected(title);
+        navigate(path);
+    };
 
-        className=" dark:bg-darkBackground dark:text-white sticky top-0 h-screen shrink-0 border-r border-slate-300 bg-white p-2 md:relative"
+    return <motion.div
+        className="dark:bg-darkBackground dark:text-white sticky top-0 h-screen shrink-0 border-r border-slate-300 bg-white p-2 md:relative"
         style={{
             width: open ? "250px" : "fit-content",
         }}
     >
         <TitleSection open={open} />
         <div className="space-y-1">
-            {share == false ?
-                <div onClick={() => navigate("/dashboard")}  className="dark:text-white"><Option Icon={FiHome} title="Home" selected={selected} setSelected={setSelected} open={open} /></div>
-                :
-                <div onClick={() => navigate(`/share/${ShareLink}`)}><Option Icon={FiHome} title="Home" selected={selected} setSelected={setSelected} open={open} /></div>}
+            {share === false ? (
+                <div onClick={() => handleNavigation("/dashboard", "Home")}>
+                    <Option Icon={FiHome} title="Home" selected={selected} setSelected={setSelected} open={open} />
+                </div>
+            ) : (
+                <div onClick={() => handleNavigation(`/share/${ShareLink}`, "Home")}>
+                    <Option Icon={FiHome} title="Home" selected={selected} setSelected={setSelected} open={open} />
+                </div>
+            )}
 
-            {share == false ?
-                <div onClick={() => navigate("/Youtubedashboard")}><Option Icon={FiVideo} title="YouTube" selected={selected} setSelected={setSelected} open={open} /></div>
-                :
-                <div onClick={() => navigate(`/ShareYoutubeDashboard/${ShareLink}`)}><Option Icon={FiVideo} title="YouTube" selected={selected} setSelected={setSelected} open={open} /></div>}
+            {share === false ? (
+                <div onClick={() => handleNavigation("/Youtubedashboard", "YouTube")}>
+                    <Option Icon={FiVideo} title="YouTube" selected={selected} setSelected={setSelected} open={open} />
+                </div>
+            ) : (
+                <div onClick={() => handleNavigation(`/ShareYoutubeDashboard/${ShareLink}`, "YouTube")}>
+                    <Option Icon={FiVideo} title="YouTube" selected={selected} setSelected={setSelected} open={open} />
+                </div>
+            )}
 
-            {share == false ?
-                <div onClick={() => navigate("/Twitterdashboard")}><Option Icon={FaXTwitter} title="Twitter" selected={selected} setSelected={setSelected} open={open} /></div> :
-                <div onClick={() => navigate(`/ShareTwitterDashboard/${ShareLink}`)}><Option Icon={FaXTwitter} title="Twitter" selected={selected} setSelected={setSelected} open={open} /></div>}
+            {share === false ? (
+                <div onClick={() => handleNavigation("/Twitterdashboard", "Twitter")}>
+                    <Option Icon={FaXTwitter} title="Twitter" selected={selected} setSelected={setSelected} open={open} />
+                </div>
+            ) : (
+                <div onClick={() => handleNavigation(`/ShareTwitterDashboard/${ShareLink}`, "Twitter")}>
+                    <Option Icon={FaXTwitter} title="Twitter" selected={selected} setSelected={setSelected} open={open} />
+                </div>
+            )}
 
-            {share == false ? <div onClick={() => navigate("/Linksdashboard")} ><Option Icon={FiLink} title="Links" selected={selected} setSelected={setSelected} open={open} /></div> : <div onClick={() => navigate(`/ShareLinkDashboard/${ShareLink}`)}><Option Icon={FiLink} title="Links" selected={selected} setSelected={setSelected} open={open} /></div>}
+            {share === false ? (
+                <div onClick={() => handleNavigation("/Linksdashboard", "Links")}>
+                    <Option Icon={FiLink} title="Links" selected={selected} setSelected={setSelected} open={open} />
+                </div>
+            ) : (
+                <div onClick={() => handleNavigation(`/ShareLinkDashboard/${ShareLink}`, "Links")}>
+                    <Option Icon={FiLink} title="Links" selected={selected} setSelected={setSelected} open={open} />
+                </div>
+            )}
         </div>
         {/* @ts-ignore */}
         <ToggleClose open={open} setOpen={setOpen} share={share} />
     </motion.div>
 };
+
 const ToggleClose = ({ open, setOpen, share }: ToggleCloseProps) => {
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -139,7 +185,6 @@ type ToggleCloseProps = {
 
 const TitleSection = ({ open }: TitleSectionProps) => {
     const { username } = useGetUsername();
-    console.log(`Username : ${username}`)
     return (
         <div className="mb-3 border-b border-slate-300 pb-3 dark:text-white">
             <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors ">
@@ -154,13 +199,11 @@ const TitleSection = ({ open }: TitleSectionProps) => {
                         >
                             <div className="flex items-center gap-6">
                             <span className="block text-xl font-semibold">Second Brain</span>
-                            {/* <div className="">{<SunIcon1/>}</div> */}
                             <div><DarkModeToggle/></div>
                             </div>
                             <span className="block text-xs text-slate-500 dark:text-white">{username}</span>
                         </motion.div>
                     )}
-                    
                 </div>
             </div>
         </div>
@@ -176,11 +219,14 @@ const Option = ({ Icon, title, selected, setSelected, open }: OptionProps) => {
         <motion.button
             layout
             onClick={() => setSelected(title)}
-            className={`relative flex h-10 w-full items-center rounded-md transition-colors ${selected === title ? "bg-indigo-100 dark:bg-blue-600 text-indigo-800" : "text-slate-500 hover:bg-slate-100 dark:hover:bg-blue-600"
-                }`}
+            className={`relative flex h-10 w-full items-center rounded-md transition-colors ${
+                selected === title 
+                ? "bg-blue-500 text-white dark:bg-blue-600" 
+                : "text-slate-500 hover:bg-slate-100 dark:hover:bg-blue-600"
+            }`}
         >
             <motion.div layout className="grid h-full w-10 place-content-center text-lg">
-                <Icon className="dark:text-white"/>
+                <Icon className={selected === title ? "text-white" : "dark:text-white"} />
             </motion.div>
             {open && (
                 <motion.span
@@ -188,7 +234,7 @@ const Option = ({ Icon, title, selected, setSelected, open }: OptionProps) => {
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.125 }}
-                    className="text-md font-medium dark:text-white"
+                    className={`text-md font-medium ${selected === title ? "text-white" : "dark:text-white"}`}
                 >
                     {title}
                 </motion.span>

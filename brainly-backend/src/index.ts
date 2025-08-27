@@ -270,9 +270,9 @@ app.get("/api/v1/:shareLink", async (req, res) => {
     })
 });
 
-app.get("/users", userMiddleware, async (req, res) => {
+app.get("/users", userMiddleware, async (req:AuthenticatedRequest, res) => {
     try {
-        //@ts-ignore
+       
         const userId = req.userId;
         const users = await User.find({ _id: userId }).select("email");
         if (users.length > 0) {
