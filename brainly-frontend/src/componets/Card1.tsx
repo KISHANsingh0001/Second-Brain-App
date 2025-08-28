@@ -37,13 +37,13 @@ export const Card1 = (props: CardProps) => {
         setScreenSize('desktop');
       }
     };
-    
+
     // Initial check
     updateScreenSize();
-    
+
     // Add event listener
     window.addEventListener('resize', updateScreenSize);
-    
+
     // Cleanup
     return () => window.removeEventListener('resize', updateScreenSize);
   }, []);
@@ -91,7 +91,7 @@ export const Card1 = (props: CardProps) => {
         const questionPos = videoId.indexOf("?");
         return questionPos !== -1 ? videoId.substring(0, questionPos) : videoId;
       }
-      
+
       return "";
     } catch (error) {
       console.error("Error extracting YouTube ID:", error);
@@ -99,9 +99,24 @@ export const Card1 = (props: CardProps) => {
     }
   };
 
+
+
+
+  const getPlaylistId = (url: string) => {
+    try {
+      if (url.includes("list=")) {
+        const playlistId = url.split("list=")[1];
+        const ampersandPos = playlistId.indexOf("&");
+        return ampersandPos !== -1 ? playlistId.substring(0, ampersandPos) : playlistId;
+      }
+      return "";
+    } catch (error) {
+      return "";
+    }
+  };
   // Helper function to determine if URL is a playlist
   const isPlaylist = (url: string) => {
-    return url.includes("list=");
+    return url.includes("/playlist?list=") || (url.includes("list=") && !url.includes("v="));
   };
 
   return (
@@ -114,9 +129,9 @@ export const Card1 = (props: CardProps) => {
       >
         <Card
           className="dark-card dark:bg-darkBackground dark:border-gray-500 dark:text-white border-gray-600"
-          style={{ 
-            width: screenSize === 'mobile' ? '100%' : 
-                   screenSize === 'tablet' ? '320px' : '295px'
+          style={{
+            width: screenSize === 'mobile' ? '100%' :
+              screenSize === 'tablet' ? '320px' : '295px'
           }}
           cover={
             <div className="dark:bg-darkBackground">
@@ -127,7 +142,7 @@ export const Card1 = (props: CardProps) => {
                       opts={{
                         playerVars: {
                           listType: "playlist",
-                          list: getYoutubeId(props.link),
+                          list: getPlaylistId(props.link),
                         },
                         width: "100%",
                         height: screenSize === 'mobile' ? "185px" : "150px",
@@ -141,9 +156,9 @@ export const Card1 = (props: CardProps) => {
                         width: "100%",
                         height: screenSize === 'mobile' ? "185px" : "150px",
                         playerVars: {
-                          // Optional: Add player variables for better control
                           autoplay: 0,
                           controls: 1,
+                          ...(props.link.includes("list=") && { list: getPlaylistId(props.link) }),
                         },
                       }}
                       className="youtube dark:border-gray-700 dark:border-2 dark:border-gray-600"
@@ -179,9 +194,9 @@ export const Card1 = (props: CardProps) => {
                 color="blue"
                 placement="bottom"
               >
-                <a 
-                  href={props.link} 
-                  target="_blank" 
+                <a
+                  href={props.link}
+                  target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Open link in new tab"
                   className="block"
@@ -215,7 +230,7 @@ export const Card1 = (props: CardProps) => {
               </h3>
             }
             description={
-              <p 
+              <p
                 className={`text-gray-600 dark:text-gray-300
                            ${screenSize === 'mobile' ? 'text-sm' : 'text-xs'}`}
                 style={{
