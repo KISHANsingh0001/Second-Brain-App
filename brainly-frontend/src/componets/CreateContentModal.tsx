@@ -3,6 +3,7 @@ import axios from "axios";
 import { CrossIcon } from "../icon/CrossIcon";
 import { Button, message, Spin } from "antd";
 import { BACKEND_URL } from "../config";
+import { Loader } from "lucide-react";
 
 interface CreateContentModalProps {
   open: boolean;
@@ -54,6 +55,7 @@ export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
   const titleRef = useRef<HTMLInputElement>(null);
   const urlRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
+  const [loading , setLoading] = useState<boolean>(false);
 
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [autofillLoading, setAutofillLoading] = useState(false);
@@ -104,6 +106,7 @@ export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
     }
 
     try {
+      setLoading(true);
       const token = localStorage.getItem("token");
       if (!token) {
         message.error("You need to be logged in to add content.");
@@ -126,6 +129,7 @@ export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
       );
 
       message.success("Content added successfully!");
+      setLoading(false);
       onClose();
     } catch (error: any) {
       console.error("Error adding content:", error.response?.data || error.message);
@@ -240,7 +244,7 @@ export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
                     onClick={addContent}
                     className="dark:text-white"
                   >
-                    Add Content
+                    {loading ? <Loader className="animate-spin"/> : "Add Content" }
                   </Button>
                 </div>
               </span>
