@@ -6,6 +6,7 @@ import { Tweet } from 'react-tweet'
 import YouTube from "react-youtube";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { Loader } from "lucide-react";
 
 const { Meta } = Card;
 
@@ -22,6 +23,7 @@ interface CardProps {
   type: "twitter" | "youtube" | "Link";
   description?: string;
   onDelete?: () => void;
+  isDeleting?: boolean;
 }
 
 export const Card1 = (props: CardProps) => {
@@ -216,7 +218,10 @@ export const Card1 = (props: CardProps) => {
                   aria-label="Delete content"
                   className="block w-full"
                 >
-                  <DeleteOutlined className="text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400" />
+                  {props.isDeleting ? <div className=" inset-0  flex items-center justify-center z-10">
+                    <Loader className="animate-spin" color="red" />
+                  </div> : <DeleteOutlined className="text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400" />}
+
                 </button>
               </Tooltip>
             </div>,

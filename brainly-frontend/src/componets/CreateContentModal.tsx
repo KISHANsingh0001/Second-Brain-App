@@ -8,6 +8,7 @@ import { Loader } from "lucide-react";
 interface CreateContentModalProps {
   open: boolean;
   onClose: () => void;
+  onContentAdded?:()=>void;
 }
 // Helper to extract YouTube video ID
 function extractYouTubeVideoId(url: string): string | null {
@@ -51,7 +52,7 @@ function extractYouTubeVideoId(url: string): string | null {
   }
 }
 
-export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
+export function CreateContentModal({ open, onClose , onContentAdded }: CreateContentModalProps) {
   const titleRef = useRef<HTMLInputElement>(null);
   const urlRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
@@ -113,7 +114,7 @@ export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
         return;
       }
 
-      await axios.post(
+      const response = await axios.post(
         `${BACKEND_URL}/api/v1/content`,
         {
           title,
@@ -130,6 +131,9 @@ export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
 
       message.success("Content added successfully!");
       setLoading(false);
+      if (onContentAdded) {
+        onContentAdded();
+      }
       onClose();
     } catch (error: any) {
       console.error("Error adding content:", error.response?.data || error.message);

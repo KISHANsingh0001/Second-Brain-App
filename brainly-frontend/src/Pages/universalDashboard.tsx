@@ -11,6 +11,7 @@ import {
   FolderAddOutlined,
   ShareAltOutlined,
 } from "@ant-design/icons"
+import { Loader, Loader2 } from "lucide-react";
 
 
 interface dashboardProps {
@@ -27,10 +28,13 @@ export default function UniversalDashboard(props: dashboardProps) {
   const [isSharing, setIsSharing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const { contents, loading, refresh, setContents } = useContent();
+  const [isDeleting , setIsDeleting] = useState(false); 
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const arr = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
 
   useEffect(() => {
     refresh();
-  }, [modalOpen]);
+  }, []);
 
   async function shareLinkTrue() {
     try {
@@ -91,10 +95,9 @@ export default function UniversalDashboard(props: dashboardProps) {
       setIsSharing(false);
     }
   }
-
-  async function handleDelete(contentId: string) {
+    async function handleDelete(contentId: string) {
     try {
-
+      setDeletingId(contentId); // Set the currently deleting card
       await axios.delete(`${BACKEND_URL}/api/v1/content`, {
         //@ts-ignore
         data: { contentId },
@@ -102,16 +105,15 @@ export default function UniversalDashboard(props: dashboardProps) {
           Authorization: localStorage.getItem("token") || "",
         },
       });
-      message.success(`Deleted Successfully`)
-      refresh();
-      //@ts-ignore
+      message.success(`Deleted Successfully`);
       setContents((prevContents) =>
-        //@ts-ignore
         prevContents.filter((content) => content._id !== contentId)
       );
     } catch (error) {
       console.error("Error deleting content:", error);
       alert("Failed to delete content.");
+    } finally {
+      setDeletingId(null); // Reset after deletion
     }
   }
   let fillteredContents: any[] = [];
@@ -131,6 +133,10 @@ export default function UniversalDashboard(props: dashboardProps) {
       <CreateContentModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
+        onContentAdded={()=>{
+          refresh();
+          setModalOpen(false);
+        }}
       />
       <div className="flex justify-between mt-3 md:mt-0 gap-3 mb-2 flex-wrap items-center border-b-2 border-gray-300 p-1 drop-shadow-lg">
         <div className="text-2xl font-bold flex justify-center items-center gap-3  ">
@@ -210,9 +216,12 @@ export default function UniversalDashboard(props: dashboardProps) {
       <div className="flex-1 overflow-y-auto justify-center items-center">
         <div className="flex gap-6 flex-wrap items-center">
           {loading ? (
-            <div className="flex justify-center items-center w-screen h-screen">
-              <span className="loader"></span>
-            </div>
+            // <div className="flex justify-center items-center w-screen h-screen">
+            //   <span className="loader"></span>
+            // </div>
+            arr.map((_, index)=>(
+               <div key={index} className="w-72 h-72 p-4 bg-gray-300 border border-gray-200 rounded-lg shadow animate-pulse transition-opacity"></div>
+            ))
           ) : fillteredContents?.length > 0 ? (
             fillteredContents.map(({ _id, link, type, title, description }) => (
               <Card1
@@ -223,6 +232,7 @@ export default function UniversalDashboard(props: dashboardProps) {
                 title={title}
                 description={description}
                 onDelete={() => handleDelete(_id)}
+                isDeleting={deletingId === _id} // Pass prop to show spinner
               />
             ))
           ) : (
