@@ -265,7 +265,6 @@ app.get("/api/v1/:shareLink", (req, res) => __awaiter(void 0, void 0, void 0, fu
 }));
 app.get("/users", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        //@ts-ignore
         const userId = req.userId;
         const users = yield db_1.User.find({ _id: userId }).select("email");
         if (users.length > 0) {
