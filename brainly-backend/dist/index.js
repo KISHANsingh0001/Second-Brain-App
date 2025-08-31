@@ -304,4 +304,15 @@ app.get('/api/youtube-title', (req, res) => __awaiter(void 0, void 0, void 0, fu
         res.status(500).json({ error: "Failed to fetch" });
     }
 }));
+app.get("/api/v1/brain/share-status", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // Find the user's brain and return share status
+        const userId = req.userId;
+        const link = yield db_1.Link.findOne({ userId });
+        res.json({ share: !!link });
+    }
+    catch (e) {
+        res.status(500).json({ share: false });
+    }
+}));
 app.listen(3003);

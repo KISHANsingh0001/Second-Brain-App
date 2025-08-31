@@ -30,9 +30,40 @@ export default function UniversalDashboard(props: dashboardProps) {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const arr = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
 
-  useEffect(() => {
-    refresh();
-  }, []);
+useEffect(() => {
+  refresh();
+
+  const checkShareStatus = async () => {
+    const hash = localStorage.getItem("ShareLink");
+    if (hash) {
+      try {
+        const res = await axios.get(`${BACKEND_URL}/api/v1/brain/share-status`, {
+          headers: {
+            Authorization: localStorage.getItem("token") || "",
+          },
+        });
+        //@ts-ignore
+        if (res.data.share === true) {
+          setShare(true);
+          setShareLink(`${window.location.origin}/share/${hash}`);
+        } else {
+          setShare(false);
+          setShareLink(null);
+          localStorage.removeItem("ShareLink");
+        }
+      } catch {
+        setShare(false);
+        setShareLink(null);
+        localStorage.removeItem("ShareLink");
+      }
+    } else {
+      setShare(false);
+      setShareLink(null);
+    }
+  };
+
+  checkShareStatus();
+}, []);
 
   async function shareLinkTrue() {
     try {

@@ -314,5 +314,16 @@ app.get('/api/youtube-title', async (req: AuthenticatedRequest, res: Response) =
     }
 });
 
+app.get("/api/v1/brain/share-status", userMiddleware , async (req:AuthenticatedRequest, res:Response) => {
+  try {
+    // Find the user's brain and return share status
+    const userId = req.userId;
+    const link = await Link.findOne({ userId });
+    res.json({ share: !!link }); 
+  } catch (e) {
+    res.status(500).json({ share: false });
+  }
+});
+
 
 app.listen(3003);

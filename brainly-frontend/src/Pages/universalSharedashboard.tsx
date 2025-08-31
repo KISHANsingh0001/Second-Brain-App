@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { LoadingIcon } from "../icon/LoadingIcon";
 import { BACKEND_URL } from "../config";
 import { ShareCard1 } from "../componets/ShareCard1";
 interface dashboardProps {
@@ -86,8 +85,8 @@ let fillteredContents: any[] = [];
               />
             ))
           ) : (
-            <div className="text-center text-gray-500 w-full font-semibold">
-              No Content Available. Add Some!
+            <div className="text-center text-red-500 w-full font-semibold">
+              Page Not Found 
             </div>
           )}
         </div>

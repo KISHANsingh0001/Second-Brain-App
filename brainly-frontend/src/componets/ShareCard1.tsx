@@ -237,27 +237,47 @@ export const ShareCard1 = (props: CardProps) => {
     }
   };
 
-  const getYoutubeId = (url: string) => {
+const getYoutubeId = (url: string) => {
     try {
-      if (url.includes("v=")) {
+      // Handle youtu.be format (mobile share links)
+      if (url.includes("youtu.be/")) {
+        const videoId = url.split("youtu.be/")[1];
+        // Remove any query parameters (like ?si=...)
+        const questionPos = videoId.indexOf("?");
+        return questionPos !== -1 ? videoId.substring(0, questionPos) : videoId;
+      }
+      // Handle youtube.com/watch?v= format
+      else if (url.includes("v=")) {
         const videoId = url.split("v=")[1];
         const ampersandPos = videoId.indexOf("&");
         return ampersandPos !== -1 ? videoId.substring(0, ampersandPos) : videoId;
-      } else if (url.includes("list=")) {
+      }
+      // Handle playlist URLs
+      else if (url.includes("list=")) {
         const playlistId = url.split("list=")[1];
         const ampersandPos = playlistId.indexOf("&");
         return ampersandPos !== -1 ? playlistId.substring(0, ampersandPos) : playlistId;
-      } else if (url.includes("/shorts/")) {
+      }
+      // Handle YouTube Shorts
+      else if (url.includes("/shorts/")) {
         const shortId = url.split("/shorts/")[1];
         const questionPos = shortId.indexOf("?");
         return questionPos !== -1 ? shortId.substring(0, questionPos) : shortId;
       }
+      // Handle youtube.com/embed/ format
+      else if (url.includes("/embed/")) {
+        const videoId = url.split("/embed/")[1];
+        const questionPos = videoId.indexOf("?");
+        return questionPos !== -1 ? videoId.substring(0, questionPos) : videoId;
+      }
+
       return "";
     } catch (error) {
       console.error("Error extracting YouTube ID:", error);
       return "";
     }
   };
+
 
   return (
     <div className={`${screenSize === 'mobile' ? 'w-full px-2' : 'w-auto'} mb-4`}>
