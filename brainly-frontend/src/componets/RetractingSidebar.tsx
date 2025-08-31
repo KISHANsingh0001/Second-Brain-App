@@ -6,6 +6,7 @@ import { Logo } from "../icon/Logo";
 import { useNavigate, useLocation } from "react-router-dom";
 import useGetUsername from "../hooks/useGetUsername";
 import DarkModeToggle from "./darkMode";
+import { BACKEND_URL } from "../config";
 
 interface isShare {
     share: boolean
@@ -16,24 +17,59 @@ export const SidebarModified = ({ share }: isShare) => {
     const location = useLocation(); 
     const [open, setOpen] = useState<boolean>(true);
     const [selected, setSelected] = useState<string>("Home");
+     const [sharedUsername, setSharedUsername] = useState<string>("");
 
     const pathname = window.location.pathname;
     const parts = pathname.split("/");
     const ShareLink = parts[parts.length - 1];
 
-    // Update selected based on current route
-    useEffect(() => {
-        // Determine which section is active based on pathname
-        if (location.pathname.includes("Youtube") || location.pathname.includes("youtube")) {
-            setSelected("YouTube");
-        } else if (location.pathname.includes("Twitter") || location.pathname.includes("twitter")) {
-            setSelected("Twitter");
-        } else if (location.pathname.includes("Links") || location.pathname.includes("link")) {
-            setSelected("Links");
-        } else if (location.pathname.includes("dashboard") || location.pathname.includes("share")) {
-            setSelected("Home");
+     useEffect(() => {
+        if (share) {
+            // Fetch username for shared dashboard
+            const pathname = window.location.pathname;
+            const parts = pathname.split("/");
+            const ShareLink = parts[parts.length - 1];
+            fetch(`${BACKEND_URL}/api/v1/${ShareLink}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.email) {
+                        setSharedUsername(data.email.split("@")[0]);
+                    }
+                })
+                .catch(() => setSharedUsername(""));
         }
-    }, [location.pathname]);
+    }, [share]);
+      const { username } = useGetUsername();
+
+    // Update selected based on current route
+    // useEffect(() => {
+    //     // Determine which section is active based on pathname
+    //     if (location.pathname.includes("Youtube") || location.pathname.includes("youtube")) {
+    //         setSelected("YouTube");
+    //     } else if (location.pathname.includes("Twitter") || location.pathname.includes("twitter")) {
+    //         setSelected("Twitter");
+    //     } else if (location.pathname.includes("Links") || location.pathname.includes("link")) {
+    //         setSelected("Links");
+    //     } else if (location.pathname.includes("dashboard") || location.pathname.includes("share")) {
+    //         setSelected("Home");
+    //     }
+    // }, [location.pathname]);
+    useEffect(() => {
+    // More specific checks first
+    if (location.pathname.includes("ShareYoutubeDashboard") || location.pathname.includes("Youtubedashboard") || location.pathname.includes("youtube")) {
+        setSelected("YouTube");
+    } else if (location.pathname.includes("ShareTwitterDashboard") || location.pathname.includes("Twitterdashboard") || location.pathname.includes("twitter")) {
+        setSelected("Twitter");
+    } else if (location.pathname.includes("ShareLinkDashboard") || location.pathname.includes("Linksdashboard") || location.pathname.includes("link")) {
+        setSelected("Links");
+    } else if (
+        // Home: only if it's exactly /share/:id or /dashboard
+        /^\/share\/[^/]+$/.test(location.pathname) ||
+        location.pathname.includes("dashboard")
+    ) {
+        setSelected("Home");
+    }
+}, [location.pathname]);
 
     useEffect(()=>{
       const handleResize = () => {
@@ -61,7 +97,7 @@ export const SidebarModified = ({ share }: isShare) => {
             width: open ? "250px" : "fit-content",
         }}
     >
-        <TitleSection open={open} />
+        <TitleSection open={open} username={share ? (sharedUsername || "") : (username || "")} />
         <div className="space-y-1">
             {share === false ? (
                 <div onClick={() => handleNavigation("/dashboard", "Home")}>
@@ -183,8 +219,8 @@ type ToggleCloseProps = {
     share: boolean;
 };
 
-const TitleSection = ({ open }: TitleSectionProps) => {
-    const { username } = useGetUsername();
+const TitleSection = ({ open, username }: TitleSectionProps) => {
+   
     return (
         <div className="mb-3 border-b border-slate-300 pb-3 dark:text-white">
             <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors ">
@@ -212,6 +248,7 @@ const TitleSection = ({ open }: TitleSectionProps) => {
 
 type TitleSectionProps = {
     open: boolean;
+    username: string;
 };
 
 const Option = ({ Icon, title, selected, setSelected, open }: OptionProps) => {

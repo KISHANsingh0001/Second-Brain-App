@@ -9,9 +9,11 @@ import UniversalDashboard from "./Pages/universalDashboard";
 import { SidebarModified } from "./componets/RetractingSidebar";
 import { FiHome, FiLink, FiVideo } from "react-icons/fi";
 import { FaXTwitter } from "react-icons/fa6";
+import { UniversalShareDashboard } from "./Pages/universalSharedashboard";
 
 function App() {
   const location = useLocation();
+
 
   // Define routes where the Sidebar should not appear
   const noSidebarRoutes = ["/signup", "/signin", "/"];
@@ -60,11 +62,11 @@ function App() {
             path="/Linksdashboard"
             element={<UniversalDashboard type="Link" title="Your Links" icon={<FiLink />} />}
           />
-          <Route path="/share/:shareLink" element={<ShareDashboard />} />
-          <Route path="/ShareLinkDashboard/:shareLink" element={<ShareLinkDashboard />} />
-          <Route path="/ShareYoutubeDashboard/:shareLink" element={<ShareYoutubeDashboard />} />
-          <Route path="/ShareTwitterDashboard/:shareLink" element={<ShareTwitterDashboard />} />
-         
+          <Route path="/share/:shareLink" element={<UniversalShareDashboard type="" title="All Content" icon={<FiHome />} />} />
+          <Route path="/ShareLinkDashboard/:shareLink" element={<UniversalShareDashboard type="Link" title="Your Links" icon={<FiLink />} />} />
+          <Route path="/ShareYoutubeDashboard/:shareLink" element={<UniversalShareDashboard type="youtube" title="YouTube Content" icon={<FiVideo />} />} />
+          <Route path="/ShareTwitterDashboard/:shareLink" element={<UniversalShareDashboard type="twitter" title="Twitter Content" icon={<FaXTwitter />} />} />
+
         </Routes>
       </div>
     </div>

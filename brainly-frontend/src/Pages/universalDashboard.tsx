@@ -11,7 +11,6 @@ import {
   FolderAddOutlined,
   ShareAltOutlined,
 } from "@ant-design/icons"
-import { Loader, Loader2 } from "lucide-react";
 
 
 interface dashboardProps {
@@ -28,7 +27,6 @@ export default function UniversalDashboard(props: dashboardProps) {
   const [isSharing, setIsSharing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const { contents, loading, refresh, setContents } = useContent();
-  const [isDeleting , setIsDeleting] = useState(false); 
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const arr = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
 
@@ -72,7 +70,7 @@ export default function UniversalDashboard(props: dashboardProps) {
     try {
       setIsSharing(true); // Start loading
 
-      const response = await axios.post(
+       await axios.post(
         `${BACKEND_URL}/api/v1/brain/share`,
         { share: false },
         {
