@@ -18,6 +18,8 @@ export const SidebarModified = ({ share }: isShare) => {
     const [open, setOpen] = useState<boolean>(true);
     const [selected, setSelected] = useState<string>("Home");
      const [sharedUsername, setSharedUsername] = useState<string>("");
+         const [isMobile, setIsMobile] = useState<boolean>(false);
+     
 
     const pathname = window.location.pathname;
     const parts = pathname.split("/");
@@ -71,32 +73,44 @@ export const SidebarModified = ({ share }: isShare) => {
     }
 }, [location.pathname]);
 
-    useEffect(()=>{
-      const handleResize = () => {
-        if(window.innerWidth < 821){
-            setOpen(false);
-        }else{
-            setOpen(true);
-        }
-      };
-      handleResize();
-      window.addEventListener("resize" , handleResize);
+     useEffect(() => {
+        const handleResize = () => {
+            const mobile = window.innerWidth < 821;
+            setIsMobile(mobile);
+            if (mobile) {
+                setOpen(false);
+            } else {
+                setOpen(true);
+            }
+        };
+        handleResize();
+        window.addEventListener("resize", handleResize);
 
-      return ()=> window.removeEventListener("resize" , handleResize);
-    } , []);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
     
-    // Helper function to navigate and set selected
+    // Close sidebar on navigation for mobile
     const handleNavigation = (path: string, title: string) => {
         setSelected(title);
         navigate(path);
+        if (isMobile) {
+            setOpen(false);
+        }
     };
 
-    return <motion.div
+    return <>
+    {isMobile && open && (
+                <div 
+                    className="fixed inset-0 bg-black bg-opacity-50 z-40"
+                    onClick={() => setOpen(false)}
+                />
+            )}
+    <motion.div
         className="dark:bg-darkBackground dark:text-white sticky top-0 h-screen shrink-0 border-r border-slate-300 bg-white p-2 md:relative"
         style={{
             width: open ? "250px" : "fit-content",
         }}
-    >
+        >
         <TitleSection open={open} username={share ? (sharedUsername || "") : (username || "")} />
         <div className="space-y-1">
             {share === false ? (
@@ -142,6 +156,7 @@ export const SidebarModified = ({ share }: isShare) => {
         {/* @ts-ignore */}
         <ToggleClose open={open} setOpen={setOpen} share={share} />
     </motion.div>
+</>
 };
 
 const ToggleClose = ({ open, setOpen, share }: ToggleCloseProps) => {
@@ -149,10 +164,10 @@ const ToggleClose = ({ open, setOpen, share }: ToggleCloseProps) => {
         localStorage.removeItem("token");
         window.location.href = "/signin";
     };
-
+    
     return (
         <motion.div
-            layout
+        layout
             className="absolute bottom-0 left-0 right-0 border-t border-slate-300 transition-colors flex items-center justify-between p-2"
         >
             {/* Hide Button */}

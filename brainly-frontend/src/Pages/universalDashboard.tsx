@@ -172,7 +172,7 @@ useEffect(() => {
           {props.icon}
           {props.title}
         </div>
-        <div className="flex gap-1 mb-1 md:gap-2 lg:gap-4">
+        <div className="flex gap-1 mb-2 md:gap-2 lg:gap-4">
           <Popover
             content={
               shareLink ? (
