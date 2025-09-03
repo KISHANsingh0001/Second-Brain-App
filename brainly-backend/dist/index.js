@@ -47,9 +47,9 @@ app.post("/api/v1/signup", (req, res) => __awaiter(void 0, void 0, void 0, funct
     const requireBodyWithSafeParse = requireBody.safeParse(req.body);
     if (!requireBodyWithSafeParse.success) {
         // Extract and return Zod validation errors
-        const errors = requireBodyWithSafeParse.error.errors.map((error) => ({
-            path: error.path.join("."), // e.g., "password"
-            message: error.message, // e.g., "Password must contain at least one uppercase letter"
+        const errors = requireBodyWithSafeParse.error.issues.map((issue) => ({
+            path: issue.path,
+            message: issue.message,
         }));
         res.status(400).json({
             errors: errors[0].message, // Send an array of field-specific error messages

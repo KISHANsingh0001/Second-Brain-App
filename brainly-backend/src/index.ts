@@ -40,9 +40,9 @@ app.post("/api/v1/signup", async (req: Request, res: Response) => {
     const requireBodyWithSafeParse = requireBody.safeParse(req.body);
     if (!requireBodyWithSafeParse.success) {
         // Extract and return Zod validation errors
-        const errors = requireBodyWithSafeParse.error.errors.map((error) => ({
-            path: error.path.join("."), // e.g., "password"
-            message: error.message,    // e.g., "Password must contain at least one uppercase letter"
+        const errors = requireBodyWithSafeParse.error.issues.map((issue) => ({
+            path: issue.path,
+            message: issue.message,
         }));
 
         res.status(400).json({
@@ -97,7 +97,7 @@ app.post("/api/v1/signin", async (req, res) => {
         const passwordMatched = await bcrypt.compare(password, user.password);
 
         if (passwordMatched) {
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET as string , {expiresIn:'3d'});
+            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET as string, { expiresIn: '3d' });
             res.status(200).json({
                 email,
                 msg: "You are signed in",
@@ -270,9 +270,9 @@ app.get("/api/v1/:shareLink", async (req, res) => {
     })
 });
 
-app.get("/users", userMiddleware, async (req:AuthenticatedRequest, res) => {
+app.get("/users", userMiddleware, async (req: AuthenticatedRequest, res) => {
     try {
-       
+
         const userId = req.userId;
         const users = await User.find({ _id: userId }).select("email");
         if (users.length > 0) {
@@ -295,13 +295,13 @@ app.get("/users", userMiddleware, async (req:AuthenticatedRequest, res) => {
 });
 
 app.get('/api/youtube-title', async (req: AuthenticatedRequest, res: Response) => {
-    const  {videoId}  = req.query;
-    if (!videoId){
+    const { videoId } = req.query;
+    if (!videoId) {
         res.status(400).json({ error: "Missing videoId" });
         return;
     }
-       
-    const apiKey = process.env.YOUTUBE_API_KEY ;
+
+    const apiKey = process.env.YOUTUBE_API_KEY;
     const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${apiKey}`;
     try {
         const response = await axios.get(url);
@@ -309,20 +309,20 @@ app.get('/api/youtube-title', async (req: AuthenticatedRequest, res: Response) =
         if (!items || !items.length) res.status(404).json({ error: "Not found" });
         res.json({ title: items[0].snippet.title });
     } catch (e) {
-        
+
         res.status(500).json({ error: "Failed to fetch" });
     }
 });
 
-app.get("/api/v1/brain/share-status", userMiddleware , async (req:AuthenticatedRequest, res:Response) => {
-  try {
-    // Find the user's brain and return share status
-    const userId = req.userId;
-    const link = await Link.findOne({ userId });
-    res.json({ share: !!link }); 
-  } catch (e) {
-    res.status(500).json({ share: false });
-  }
+app.get("/api/v1/brain/share-status", userMiddleware, async (req: AuthenticatedRequest, res: Response) => {
+    try {
+        // Find the user's brain and return share status
+        const userId = req.userId;
+        const link = await Link.findOne({ userId });
+        res.json({ share: !!link });
+    } catch (e) {
+        res.status(500).json({ share: false });
+    }
 });
 
 
