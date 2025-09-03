@@ -62,10 +62,10 @@ function App() {
             path="/Linksdashboard"
             element={<UniversalDashboard type="Link" title="Your Links" icon={<FiLink />} />}
           />
-          <Route path="/share/:shareLink" element={<UniversalShareDashboard type="" title="All Content" icon={<FiHome />} />} />
-          <Route path="/ShareLinkDashboard/:shareLink" element={<UniversalShareDashboard type="Link" title="Your Links" icon={<FiLink />} />} />
-          <Route path="/ShareYoutubeDashboard/:shareLink" element={<UniversalShareDashboard type="youtube" title="YouTube Content" icon={<FiVideo />} />} />
-          <Route path="/ShareTwitterDashboard/:shareLink" element={<UniversalShareDashboard type="twitter" title="Twitter Content" icon={<FaXTwitter />} />} />
+          <Route path="/share/:shareLink" element={<ShareDashboard/>} />
+          <Route path="/ShareLinkDashboard/:shareLink" element={<ShareLinkDashboard/>} />
+          <Route path="/ShareYoutubeDashboard/:shareLink" element={<ShareYoutubeDashboard/>} />
+          <Route path="/ShareTwitterDashboard/:shareLink" element={<ShareTwitterDashboard/>} />
 
         </Routes>
       </div>
