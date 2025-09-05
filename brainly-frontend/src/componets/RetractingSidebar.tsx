@@ -16,7 +16,7 @@ export const SidebarModified = ({ share }: isShare) => {
     const navigate = useNavigate();
     const location = useLocation(); 
     const [open, setOpen] = useState<boolean>(true);
-    const [selected, setSelected] = useState<string>("Home");
+    const [selected, setSelected] = useState<string>("AI Content");
      const [sharedUsername, setSharedUsername] = useState<string>("");
          const [isMobile, setIsMobile] = useState<boolean>(false);
      
@@ -47,29 +47,29 @@ export const SidebarModified = ({ share }: isShare) => {
     // useEffect(() => {
     //     // Determine which section is active based on pathname
     //     if (location.pathname.includes("Youtube") || location.pathname.includes("youtube")) {
-    //         setSelected("YouTube");
+    //         setSelected("AI Videos");
     //     } else if (location.pathname.includes("Twitter") || location.pathname.includes("twitter")) {
-    //         setSelected("Twitter");
+    //         setSelected("AI Social");
     //     } else if (location.pathname.includes("Links") || location.pathname.includes("link")) {
-    //         setSelected("Links");
+    //         setSelected("AI Articles");
     //     } else if (location.pathname.includes("dashboard") || location.pathname.includes("share")) {
-    //         setSelected("Home");
+    //         setSelected("AI Content");
     //     }
     // }, [location.pathname]);
     useEffect(() => {
     // More specific checks first
     if (location.pathname.includes("ShareYoutubeDashboard") || location.pathname.includes("Youtubedashboard") || location.pathname.includes("youtube")) {
-        setSelected("YouTube");
+        setSelected("AI Videos");
     } else if (location.pathname.includes("ShareTwitterDashboard") || location.pathname.includes("Twitterdashboard") || location.pathname.includes("twitter")) {
-        setSelected("Twitter");
+        setSelected("AI Social");
     } else if (location.pathname.includes("ShareLinkDashboard") || location.pathname.includes("Linksdashboard") || location.pathname.includes("link")) {
-        setSelected("Links");
+        setSelected("AI Articles");
     } else if (
-        // Home: only if it's exactly /share/:id or /dashboard
+        // AI Content: only if it's exactly /share/:id or /dashboard
         /^\/share\/[^/]+$/.test(location.pathname) ||
         location.pathname.includes("dashboard")
     ) {
-        setSelected("Home");
+        setSelected("AI Content");
     }
 }, [location.pathname]);
 
@@ -114,42 +114,42 @@ export const SidebarModified = ({ share }: isShare) => {
         <TitleSection open={open} username={share ? (sharedUsername || "") : (username || "")} />
         <div className="space-y-1">
             {share === false ? (
-                <div onClick={() => handleNavigation("/dashboard", "Home")}>
-                    <Option Icon={FiHome} title="Home" selected={selected} setSelected={setSelected} open={open} />
+                <div onClick={() => handleNavigation("/dashboard", "AI Content")}>
+                    <Option Icon={FiHome} title="AI Content" selected={selected} setSelected={setSelected} open={open} />
                 </div>
             ) : (
-                <div onClick={() => handleNavigation(`/share/${ShareLink}`, "Home")}>
-                    <Option Icon={FiHome} title="Home" selected={selected} setSelected={setSelected} open={open} />
+                <div onClick={() => handleNavigation(`/share/${ShareLink}`, "AI Content")}>
+                    <Option Icon={FiHome} title="AI Content" selected={selected} setSelected={setSelected} open={open} />
                 </div>
             )}
 
             {share === false ? (
-                <div onClick={() => handleNavigation("/Youtubedashboard", "YouTube")}>
-                    <Option Icon={FiVideo} title="YouTube" selected={selected} setSelected={setSelected} open={open} />
+                <div onClick={() => handleNavigation("/Youtubedashboard", "AI Videos")}>
+                    <Option Icon={FiVideo} title="AI Videos" selected={selected} setSelected={setSelected} open={open} />
                 </div>
             ) : (
-                <div onClick={() => handleNavigation(`/ShareYoutubeDashboard/${ShareLink}`, "YouTube")}>
-                    <Option Icon={FiVideo} title="YouTube" selected={selected} setSelected={setSelected} open={open} />
+                <div onClick={() => handleNavigation(`/ShareYoutubeDashboard/${ShareLink}`, "AI Videos")}>
+                    <Option Icon={FiVideo} title="AI Videos" selected={selected} setSelected={setSelected} open={open} />
                 </div>
             )}
 
             {share === false ? (
-                <div onClick={() => handleNavigation("/Twitterdashboard", "Twitter")}>
-                    <Option Icon={FaXTwitter} title="Twitter" selected={selected} setSelected={setSelected} open={open} />
+                <div onClick={() => handleNavigation("/Twitterdashboard", "AI Social")}>
+                    <Option Icon={FaXTwitter} title="AI Social" selected={selected} setSelected={setSelected} open={open} />
                 </div>
             ) : (
-                <div onClick={() => handleNavigation(`/ShareTwitterDashboard/${ShareLink}`, "Twitter")}>
-                    <Option Icon={FaXTwitter} title="Twitter" selected={selected} setSelected={setSelected} open={open} />
+                <div onClick={() => handleNavigation(`/ShareTwitterDashboard/${ShareLink}`, "AI Social")}>
+                    <Option Icon={FaXTwitter} title="AI Social" selected={selected} setSelected={setSelected} open={open} />
                 </div>
             )}
 
             {share === false ? (
-                <div onClick={() => handleNavigation("/Linksdashboard", "Links")}>
-                    <Option Icon={FiLink} title="Links" selected={selected} setSelected={setSelected} open={open} />
+                <div onClick={() => handleNavigation("/Linksdashboard", "AI Articles")}>
+                    <Option Icon={FiLink} title="AI Articles" selected={selected} setSelected={setSelected} open={open} />
                 </div>
             ) : (
-                <div onClick={() => handleNavigation(`/ShareLinkDashboard/${ShareLink}`, "Links")}>
-                    <Option Icon={FiLink} title="Links" selected={selected} setSelected={setSelected} open={open} />
+                <div onClick={() => handleNavigation(`/ShareLinkDashboard/${ShareLink}`, "AI Articles")}>
+                    <Option Icon={FiLink} title="AI Articles" selected={selected} setSelected={setSelected} open={open} />
                 </div>
             )}
         </div>
@@ -249,7 +249,7 @@ const TitleSection = ({ open, username }: TitleSectionProps) => {
                             transition={{ delay: 0.125 }}
                         >
                             <div className="flex items-center gap-6">
-                            <span className="block text-xl font-semibold">Second Brain</span>
+                            <span className="block text-xl font-semibold">AI Content Generator</span>
                             <div><DarkModeToggle/></div>
                             </div>
                             <span className="block text-xs text-slate-500 dark:text-white">{username}</span>
