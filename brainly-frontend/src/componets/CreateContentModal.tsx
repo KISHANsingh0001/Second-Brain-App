@@ -114,7 +114,7 @@ export function CreateContentModal({ open, onClose , onContentAdded }: CreateCon
         return;
       }
 
-      const response = await axios.post(
+      await axios.post(
         `${BACKEND_URL}/api/v1/content`,
         {
           title,
@@ -153,7 +153,7 @@ export function CreateContentModal({ open, onClose , onContentAdded }: CreateCon
               <span className="bg-white dark:bg-gray-800 p-4 bg-opacity-100 shadow-lg rounded-3xl border-black-100 dark:border-gray-700 border">
                 <div className="flex justify-between items-center p-2 mb-4">
                   <h1 className="font-bold text-xl sm:text-2xl text-black dark:text-white">
-                    Add New Content
+                    Generate AI Content
                   </h1>
                   <div onClick={onClose} className="cursor-pointer">
                     <CrossIcon />
@@ -172,10 +172,10 @@ export function CreateContentModal({ open, onClose , onContentAdded }: CreateCon
                       onChange={handleSelectChange}
                       value={selectedOption}
                     >
-                      <option value="">Select an option</option>
-                      <option value="Link">Link</option>
-                      <option value="twitter">Twitter</option>
-                      <option value="youtube">YouTube Video</option>
+                      <option value="">Select content type to generate</option>
+                      <option value="Link">AI Generated Link/Article</option>
+                      <option value="twitter">AI Social Media Post</option>
+                      <option value="youtube">AI Video Content</option>
                     </select>
                   </div>
 
@@ -248,7 +248,7 @@ export function CreateContentModal({ open, onClose , onContentAdded }: CreateCon
                     onClick={addContent}
                     className="dark:text-white"
                   >
-                    {loading ? <Loader className="animate-spin"/> : "Add Content" }
+                    {loading ? <Loader className="animate-spin"/> : "Generate Content" }
                   </Button>
                 </div>
               </span>

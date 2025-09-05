@@ -224,7 +224,7 @@ useEffect(() => {
           </Popover>
 
           <Tooltip
-            title={`Add New Content to Your Brain`}
+            title={`Generate New AI Content`}
             trigger={"hover"}
             color="geekblue"
             arrow
@@ -235,7 +235,7 @@ useEffect(() => {
               size="large"
               icon={<FolderAddOutlined />}
             >
-              Add Content
+              Generate Content
             </Button>
           </Tooltip>
         </div>

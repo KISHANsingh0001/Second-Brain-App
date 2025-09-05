@@ -1,10 +1,6 @@
 import { SignUp } from "./Pages/SignUp";
 import { SignIn } from "./Pages/Signin";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { ShareDashboard } from "./Pages/ShareDashboard";
-import { ShareLinkDashboard } from "./Pages/ShareLinkDashboard";
-import { ShareYoutubeDashboard } from "./Pages/ShareYoutubeDashboard";
-import { ShareTwitterDashboard } from "./Pages/ShareTwitterDashboard";
 import UniversalDashboard from "./Pages/universalDashboard";
 import { SidebarModified } from "./componets/RetractingSidebar";
 import { FiHome, FiLink, FiVideo } from "react-icons/fi";
@@ -48,24 +44,24 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
           <Route
             path="/dashboard"
-            element={<UniversalDashboard type="" title="All Content" icon={<FiHome />} />}
+            element={<UniversalDashboard type="" title="AI Generated Content" icon={<FiHome />} />}
           />
           <Route
             path="/Twitterdashboard"
-            element={<UniversalDashboard type="twitter" title="Twitter Content" icon={<FaXTwitter />} />}
+            element={<UniversalDashboard type="twitter" title="AI Social Media Posts" icon={<FaXTwitter />} />}
           />
           <Route
             path="/Youtubedashboard"
-            element={<UniversalDashboard type="youtube" title="YouTube Content" icon={<FiVideo />} />}
+            element={<UniversalDashboard type="youtube" title="AI Video Content" icon={<FiVideo />} />}
           />
           <Route
             path="/Linksdashboard"
-            element={<UniversalDashboard type="Link" title="Your Links" icon={<FiLink />} />}
+            element={<UniversalDashboard type="Link" title="AI Generated Links" icon={<FiLink />} />}
           />
-          <Route path="/share/:shareLink" element={<UniversalShareDashboard type="" title="All Content" icon={<FiHome />} />} />
-          <Route path="/ShareLinkDashboard/:shareLink" element={<UniversalShareDashboard type="Link" title="Your Links" icon={<FiLink />} />} />
-          <Route path="/ShareYoutubeDashboard/:shareLink" element={<UniversalShareDashboard type="youtube" title="YouTube Content" icon={<FiVideo />} />} />
-          <Route path="/ShareTwitterDashboard/:shareLink" element={<UniversalShareDashboard type="twitter" title="Twitter Content" icon={<FaXTwitter />} />} />
+          <Route path="/share/:shareLink" element={<UniversalShareDashboard type="" title="AI Generated Content" icon={<FiHome />} />} />
+          <Route path="/ShareLinkDashboard/:shareLink" element={<UniversalShareDashboard type="Link" title="AI Generated Links" icon={<FiLink />} />} />
+          <Route path="/ShareYoutubeDashboard/:shareLink" element={<UniversalShareDashboard type="youtube" title="AI Video Content" icon={<FiVideo />} />} />
+          <Route path="/ShareTwitterDashboard/:shareLink" element={<UniversalShareDashboard type="twitter" title="AI Social Media Posts" icon={<FaXTwitter />} />} />
 
         </Routes>
       </div>

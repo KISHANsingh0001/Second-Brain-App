@@ -1,6 +1,6 @@
-# 🧠 Second Brain
+# 🤖 AI Content Generator App
 
-A modern, full-stack content management platform to store, organize, and share your favorite YouTube videos, playlists, Shorts, Tweets, and links—all in one place.
+A modern, full-stack AI-powered content generation and management platform. Create, organize, and share AI-generated content including YouTube videos, social media posts, articles, and links—all in one intelligent workspace.
 
 Built with **React + TypeScript + Vite** (frontend) and **Node.js + Express + MongoDB** (backend).
 
@@ -8,14 +8,15 @@ Built with **React + TypeScript + Vite** (frontend) and **Node.js + Express + Mo
 
 ## 🚀 Features
 
-- **Multi-Content Support**: Save YouTube videos, playlists, Shorts, Tweets, and any web link.  
+- **AI Content Generation**: Generate AI-powered content for multiple platforms including YouTube, Twitter, and articles.  
+- **Multi-Content Support**: Save and manage YouTube videos, playlists, Shorts, Tweets, and any web link.  
 - **Beautiful Dashboard**: Responsive, dark-mode enabled, and animated UI for a delightful experience.  
-- **Easy Organization**: Add titles, descriptions, and tags to your content.  
-- **One-Click Sharing**: Generate secure, shareable links for your curated content.  
+- **Smart Organization**: Add AI-generated titles, descriptions, and tags to your content.  
+- **One-Click Sharing**: Generate secure, shareable links for your curated AI content.  
 - **Secure Authentication**: JWT-based login/signup with hashed passwords.  
-- **Delete & Manage**: Remove or update your content anytime.  
+- **Content Management**: Create, edit, delete and organize your AI-generated content.  
 - **Mobile Friendly**: Works seamlessly on all devices.  
-- **Popover Share**: Instantly copy or preview your shareable link.  
+- **AI-Powered Insights**: Get intelligent suggestions and content optimization.  
 - **Smart Sidebar**: Sidebar auto-collapses on small screens for a clutter-free view.  
 
 ---
@@ -43,15 +44,16 @@ https://github.com/user-attachments/assets/894d7963-e55a-4d59-b111-f3a5cef36b3f
 
 ---
 
-## 💡 Why Second Brain?
+## 💡 Why AI Content Generator App?
 
-Traditional bookmarking tools are limited and often become cluttered or hard to search. **Second Brain** solves this by:
+Traditional content creation tools are limited and time-consuming. **AI Content Generator App** solves this by:
 
-1. **Centralizing** all your content types (videos, tweets, links) in one dashboard.  
-2. Enabling **rich metadata** (title, description, tags) for better search and recall.  
-3. Providing **instant sharing** with secure, revocable links.  
-4. Supporting **dark mode** and responsive layouts for modern workflows.  
-5. Minimizing cognitive overload by making your digital knowledge easily accessible and organized.  
+1. **AI-Powered Creation** - Generate high-quality content using artificial intelligence.  
+2. **Centralizing** all your content types (videos, tweets, articles, links) in one dashboard.  
+3. Enabling **rich metadata** (AI-generated titles, descriptions, tags) for better organization.  
+4. Providing **instant sharing** with secure, revocable links.  
+5. Supporting **dark mode** and responsive layouts for modern workflows.  
+6. Minimizing content creation time with intelligent AI assistance.  
 
 ---
 
@@ -61,13 +63,14 @@ Traditional bookmarking tools are limited and often become cluttered or hard to 
    - Create an account with your email and a secure password.  
    - JWT authentication keeps your data safe.
 
-2. **Add Content**  
-   - Use the **Add Content** button to save YouTube videos, playlists, Shorts, Tweets, or any link.  
-   - Add a title and description for context.
+2. **Generate AI Content**  
+   - Use the **Add Content** button to create AI-powered content.  
+   - Generate content for YouTube, Twitter, articles, or save existing links.  
+   - AI automatically suggests titles and descriptions.
 
 3. **Organize & View**  
-   - All your content appears in a beautiful, filterable dashboard.  
-   - Use tags and search to quickly find what you need.
+   - All your AI-generated content appears in a beautiful, filterable dashboard.  
+   - Use AI-generated tags and search to quickly find what you need.
 
 4. **Share Instantly**  
    - Click **Share Content** to generate a unique, secure link.  
@@ -77,17 +80,18 @@ Traditional bookmarking tools are limited and often become cluttered or hard to 
 5. **Responsive & Accessible**  
    - Sidebar auto-collapses on small screens.  
    - Dark mode for night owls.  
-   - Fast, animated UI for a delightful experience.
+   - Fast, animated UI with AI-powered features.
 
 ---
 
 ## 🏆 Advantages Over Traditional Methods
 
-- No more scattered bookmarks across browsers and devices.  
+- No more time-consuming manual content creation.  
+- AI-powered content generation saves hours of work.  
 - Rich previews for videos and tweets, not just plain links.  
 - Easy sharing without exposing your entire account or using third-party services.  
 - Full control—revoke share links anytime.  
-- Modern UI/UX with accessibility and responsiveness in mind.  
+- Modern UI/UX with AI assistance and accessibility in mind.  
 
 ---
 
@@ -95,6 +99,7 @@ Traditional bookmarking tools are limited and often become cluttered or hard to 
 
 - **Frontend:** React, TypeScript, Vite, TailwindCSS, Ant Design, Framer Motion  
 - **Backend:** Node.js, Express, MongoDB, Mongoose, JWT, bcrypt  
+- **AI Integration:** Ready for AI API integration (OpenAI, Claude, etc.)  
 - **Other:** Zod (validation), Axios, React Icons  
 
 ---
@@ -103,24 +108,28 @@ Traditional bookmarking tools are limited and often become cluttered or hard to 
 
 1. **Clone the Repository**  
    ```bash
-   git clone https://github.com/yourusername/second-brain.git
-  
+   git clone https://github.com/yourusername/ai-content-generator-app.git
+   cd ai-content-generator-app
+   ```
    
 2. **Setup Backend**  
    ```bash
    cd brainly-backend
    cp src/config.example.ts src/config.ts
-   # Edit src/config.ts with your MongoDB URI and JWT secret
+   # Edit src/config.ts with your MongoDB URI, JWT secret, and AI API keys
    npm install
    npm run dev
+   ```
+
 3. **Setup Frontend**  
    ```bash
    cd ../brainly-frontend
    npm install
    npm run dev
+   ```
 
-4.	Open in Browser
-Visit http://localhost:5173 (or the port shown in your terminal).
+4. **Open in Browser**  
+   Visit http://localhost:5173 (or the port shown in your terminal).
 
 ## 🤝 Contributing
 

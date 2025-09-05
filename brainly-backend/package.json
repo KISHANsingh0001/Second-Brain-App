@@ -1,5 +1,5 @@
 {
-  "name": "brainly",
+  "name": "ai-content-generator-app-backend",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -7,10 +7,10 @@
     "start": "node dist/index.js",
     "dev": "npm run build && npm run start"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": ["ai", "content", "generator", "ai-content", "content-management"],
+  "author": "Kishan Singh Thakur",
+  "license": "MIT",
+  "description": "Backend for AI Content Generator App - A platform for generating and managing AI-powered content",
   "dependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
