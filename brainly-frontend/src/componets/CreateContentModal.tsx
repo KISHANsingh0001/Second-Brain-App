@@ -8,7 +8,7 @@ import { Loader } from "lucide-react";
 interface CreateContentModalProps {
   open: boolean;
   onClose: () => void;
-  onContentAdded?:()=>void;
+  onContentAdded?: () => void;
 }
 // Helper to extract YouTube video ID
 function extractYouTubeVideoId(url: string): string | null {
@@ -44,7 +44,13 @@ function extractYouTubeVideoId(url: string): string | null {
       const ampersandPos = videoId.indexOf("&");
       return ampersandPos !== -1 ? videoId.substring(0, ampersandPos) : videoId;
     }
-    
+    // Handle YouTube Live - youtube.com/live/VIDEO_ID
+    else if (url.includes("/live/")) {
+      const liveId = url.split("/live/")[1];
+      const questionPos = liveId.indexOf("?");
+      return questionPos !== -1 ? liveId.substring(0, questionPos) : liveId;
+    }
+
     return null;
   } catch (error) {
     console.error("Error extracting YouTube ID:", error);
@@ -52,11 +58,11 @@ function extractYouTubeVideoId(url: string): string | null {
   }
 }
 
-export function CreateContentModal({ open, onClose , onContentAdded }: CreateContentModalProps) {
+export function CreateContentModal({ open, onClose, onContentAdded }: CreateContentModalProps) {
   const titleRef = useRef<HTMLInputElement>(null);
   const urlRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
-  const [loading , setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [autofillLoading, setAutofillLoading] = useState(false);
@@ -114,7 +120,7 @@ export function CreateContentModal({ open, onClose , onContentAdded }: CreateCon
         return;
       }
 
-      const response = await axios.post(
+      await axios.post(
         `${BACKEND_URL}/api/v1/content`,
         {
           title,
@@ -248,7 +254,7 @@ export function CreateContentModal({ open, onClose , onContentAdded }: CreateCon
                     onClick={addContent}
                     className="dark:text-white"
                   >
-                    {loading ? <Loader className="animate-spin"/> : "Add Content" }
+                    {loading ? <Loader className="animate-spin" /> : "Add Content"}
                   </Button>
                 </div>
               </span>

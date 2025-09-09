@@ -510,7 +510,6 @@ export const ShareCard1 = (props: CardProps) => {
   const videoId = getYoutubeId(url);
   return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
 };
-  
 
   // Only render the actual content if in view
   if (!inView) {
@@ -530,7 +529,6 @@ export const ShareCard1 = (props: CardProps) => {
       </div>
     );
   }
-
   return (
     <div className={`${screenSize === 'mobile' ? 'w-full px-2' : 'w-auto'} mb-4`} ref={ref}>
       <motion.div

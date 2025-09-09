@@ -1,10 +1,6 @@
 import { SignUp } from "./Pages/SignUp";
 import { SignIn } from "./Pages/Signin";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { ShareDashboard } from "./Pages/ShareDashboard";
-import { ShareLinkDashboard } from "./Pages/ShareLinkDashboard";
-import { ShareYoutubeDashboard } from "./Pages/ShareYoutubeDashboard";
-import { ShareTwitterDashboard } from "./Pages/ShareTwitterDashboard";
 import UniversalDashboard from "./Pages/universalDashboard";
 import { SidebarModified } from "./componets/RetractingSidebar";
 import { FiHome, FiLink, FiVideo } from "react-icons/fi";
