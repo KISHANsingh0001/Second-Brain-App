@@ -202,6 +202,7 @@ useEffect(() => {
             {share === false ? (
               <Button
                 icon={<ShareAltOutlined />}
+                className="share-button"
                 size="large"
                 onClick={shareLinkTrue}
                 loading={isSharing}
@@ -222,6 +223,7 @@ useEffect(() => {
               </Button>
             )}
           </Popover>
+ 
 
           <Tooltip
             title={`Add New Content to Your Brain`}
@@ -231,6 +233,7 @@ useEffect(() => {
           >
             <Button
               onClick={() => setModalOpen(true)}
+              className="create-content-button"
               type="primary"
               size="large"
               icon={<FolderAddOutlined />}
@@ -242,7 +245,7 @@ useEffect(() => {
       </div>
 
       {/* Scrollable container for cards */}
-      <div className="flex-1 overflow-y-auto justify-center items-center">
+      <div className="flex-1 overflow-y-auto justify-center items-center scrollbar">
         <div className="flex gap-6 flex-wrap items-center">
           {loading ? (
             // <div className="flex justify-center items-center w-screen h-screen">

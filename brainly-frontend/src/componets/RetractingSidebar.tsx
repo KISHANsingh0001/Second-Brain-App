@@ -114,7 +114,7 @@ export const SidebarModified = ({ share }: isShare) => {
         <TitleSection open={open} username={share ? (sharedUsername || "") : (username || "")} />
         <div className="space-y-1">
             {share === false ? (
-                <div onClick={() => handleNavigation("/dashboard", "Home")}>
+                <div onClick={() => handleNavigation("/dashboard", "Home")} className="sidebar-home">
                     <Option Icon={FiHome} title="Home" selected={selected} setSelected={setSelected} open={open} />
                 </div>
             ) : (
@@ -124,7 +124,7 @@ export const SidebarModified = ({ share }: isShare) => {
             )}
 
             {share === false ? (
-                <div onClick={() => handleNavigation("/Youtubedashboard", "YouTube")}>
+                <div onClick={() => handleNavigation("/Youtubedashboard", "YouTube")} className="sidebar-youtube">
                     <Option Icon={FiVideo} title="YouTube" selected={selected} setSelected={setSelected} open={open} />
                 </div>
             ) : (
@@ -134,7 +134,7 @@ export const SidebarModified = ({ share }: isShare) => {
             )}
 
             {share === false ? (
-                <div onClick={() => handleNavigation("/Twitterdashboard", "Twitter")}>
+                <div onClick={() => handleNavigation("/Twitterdashboard", "Twitter")} className="sidebar-twitter">
                     <Option Icon={FaXTwitter} title="Twitter" selected={selected} setSelected={setSelected} open={open} />
                 </div>
             ) : (
@@ -144,7 +144,7 @@ export const SidebarModified = ({ share }: isShare) => {
             )}
 
             {share === false ? (
-                <div onClick={() => handleNavigation("/Linksdashboard", "Links")}>
+                <div onClick={() => handleNavigation("/Linksdashboard", "Links")} className="sidebar-links">
                     <Option Icon={FiLink} title="Links" selected={selected} setSelected={setSelected} open={open} />
                 </div>
             ) : (
@@ -230,7 +230,7 @@ const ToggleClose = ({ open, setOpen, share }: ToggleCloseProps) => {
 
 type ToggleCloseProps = {
     open: boolean;
-    setOpen: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>; 
     share: boolean;
 };
 
@@ -240,6 +240,7 @@ const TitleSection = ({ open, username }: TitleSectionProps) => {
         <div className="mb-3 border-b border-slate-300 pb-3 dark:text-white">
             <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors ">
                 <div className="flex items-center gap-2">
+                   
                     <Logo />
                     {open && (
                         <motion.div

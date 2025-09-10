@@ -6,6 +6,7 @@ import { SidebarModified } from "./componets/RetractingSidebar";
 import { FiHome, FiLink, FiVideo } from "react-icons/fi";
 import { FaXTwitter } from "react-icons/fa6";
 import { UniversalShareDashboard } from "./Pages/universalSharedashboard";
+import { OnboardingTour } from "./componets/OnboardingTour";
 
 function App() {
   const location = useLocation();
@@ -26,6 +27,7 @@ function App() {
   const isShareSidebar = shareSidebarRoutes.some((route) =>
     location.pathname.startsWith(route.replace(":shareLink", ""))
   );
+  const showTour = !noSidebarRoutes.includes(location.pathname);
 
   return (
     <div className="h-screen flex">
@@ -64,6 +66,8 @@ function App() {
           <Route path="/ShareTwitterDashboard/:shareLink" element={<UniversalShareDashboard type="twitter" title="Twitter Content" icon={<FaXTwitter />} />} />
 
         </Routes>
+
+         {showTour && <OnboardingTour />}
       </div>
     </div>
   );

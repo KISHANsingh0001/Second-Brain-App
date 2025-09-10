@@ -95,5 +95,27 @@
     }
   }
   
+.driver-popover {
+  @apply bg-white dark:bg-gray-800 dark:text-white;
+}
 
+.driver-popover-title {
+  @apply dark:text-white;
+}
+
+.driver-popover-description {
+  @apply dark:text-gray-300;
+}
+
+.driver-popover-footer {
+  @apply dark:border-gray-700;
+}
+
+html.dark .driver-popover-btn {
+  @apply bg-blue-600 hover:bg-blue-700 text-white;
+}
+.scrollbar{
+  scrollbar-width:none;
+  scroll-behavior: smooth;
  
+}

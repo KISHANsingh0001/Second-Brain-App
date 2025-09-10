@@ -90,6 +90,12 @@ export function SignIn() {
       // Assume the backend sends a success message in the response
       //@ts-ignore
       setResponseMessage("SignIn successful!");
+      if (!localStorage.getItem('secondBrain_hasLoggedIn'))
+         {
+            localStorage.setItem('secondBrain_hasLoggedIn', 'true');
+            // Remove existing tour completion to ensure new users see it
+            localStorage.removeItem('secondBrain_tourComplete');
+          }
       setShow(true); // Show success modal
       setTimeout(()=>{
        navigate("/dashboard")
