@@ -3,26 +3,12 @@ import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Tooltip } from 'antd';
-import Confetti from 'react-confetti';
 export function OnboardingTour() {
     const [hasSeenTour, setHasSeenTour] = useState<boolean>(false);
     const location = useLocation();
     const navigate = useNavigate();
-   const [showConfetti, setShowConfetti] = useState(false);
-    const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
     useEffect(() => {
-       // Set window size for confetti
-        const updateWindowSize = () => {
-            setWindowSize({ 
-                width: window.innerWidth, 
-                height: window.innerHeight 
-            });
-        };
-        
-        updateWindowSize();
-        window.addEventListener('resize', updateWindowSize);
-        
         // Check if user has seen the tour before
         const tourSeen = localStorage.getItem('secondBrain_tourComplete');
 
@@ -38,8 +24,6 @@ export function OnboardingTour() {
                 startTour();
             }, 1000);
         }
-        
-        return () => window.removeEventListener('resize', updateWindowSize);
     }, [location.pathname]);
 
     const startTour = () => {
@@ -124,33 +108,14 @@ export function OnboardingTour() {
             onDestroyed: () => {
                 localStorage.setItem('secondBrain_tourComplete', 'true');
                 setHasSeenTour(true);
-                // Show confetti 
-                setShowConfetti(true);
-                
-                // Hide confetti after 5 seconds
-                setTimeout(() => {
-                    setShowConfetti(false);
-                }, 5000);
             },
         });
-
         driverObj.drive();
     };
 
     return (
         <>
        
-        {/* Confetti overlay when tour completes */}
-            {showConfetti && (
-                <Confetti
-                    width={windowSize.width}
-                    height={windowSize.height}
-                    recycle={false}
-                    numberOfPieces={500}
-                    gravity={0.3}
-                    colors={['#4f46e5', '#3b82f6', '#8b5cf6', '#ec4899', '#f43f5e', '#eab308']}
-                />
-            )}
         <Tooltip
             title={`Get Second Brain Tour`}
             trigger={"hover"}
