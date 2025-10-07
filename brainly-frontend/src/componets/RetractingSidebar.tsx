@@ -251,7 +251,7 @@ const TitleSection = ({ open, username }: TitleSectionProps) => {
                         >
                             <div className="flex items-center gap-6">
                             <span className="block text-xl font-semibold">Second Brain</span>
-                            <div><DarkModeToggle/></div>
+                            {/* <div className=""><DarkModeToggle/></div> */}
                             </div>
                             <span className="block text-xs text-slate-500 dark:text-white">{username}</span>
                         </motion.div>

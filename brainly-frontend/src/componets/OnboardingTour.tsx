@@ -3,6 +3,7 @@ import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Tooltip } from 'antd';
+import DarkModeToggle from './darkMode';
 export function OnboardingTour() {
     const [hasSeenTour, setHasSeenTour] = useState<boolean>(false);
     const location = useLocation();
@@ -115,25 +116,39 @@ export function OnboardingTour() {
 
     return (
         <>
-       
-        <Tooltip
-            title={`Get Second Brain Tour`}
-            trigger={"hover"}
-            color="geekblue"
-            arrow
-        >
-            <div className="fixed bottom-4 right-4 z-50">
+         <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2 items-end">
+                {/* Dark Mode Toggle - Always visible */}
+                <Tooltip
+                    title="Toggle Dark/Light Mode"
+                    trigger="hover"
+                    color="geekblue"
+                    arrow
+                    placement="left"
+                >
+                    <div className="bg-white dark:bg-gray-800 rounded-full p-1 shadow-lg border border-gray-200 dark:border-gray-600">
+                        <DarkModeToggle />
+                    </div>
+                </Tooltip>
+
+                {/* Tour Button - Only visible after tour completion */}
                 {hasSeenTour && (
-                    <button
-                        onClick={startTour}
-                        className="bg-red-600 hover:bg-blue-700 text-white rounded-full p-1 shadow-lg"
-                        aria-label="Show tour guide"
+                    <Tooltip
+                        title="Get Second Brain Tour"
+                        trigger="hover"
+                        color="geekblue"
+                        arrow
+                        placement="left"
                     >
-               <img src="/tour.svg" alt="touricon" className='w-7 md:w-8 lg:w-11 xl:w-10'/>
-                    </button>
+                        <button
+                            onClick={startTour}
+                            className="bg-red-600 hover:bg-blue-700 text-white rounded-full p-1 shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105"
+                            aria-label="Show tour guide"
+                        >
+                            <img src="/tour.svg" alt="touricon" className='w-7 md:w-8 lg:w-11 xl:w-10'/>
+                        </button>
+                    </Tooltip>
                 )}
             </div>
-        </Tooltip>
 
          </>
     );
